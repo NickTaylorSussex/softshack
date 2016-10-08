@@ -1,6 +1,6 @@
 package org.softshack;
 
-import com.example.coursework2.R;
+import org.softshack.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.app.ActionBar;
