@@ -1,3 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ACTIVITY TITLES -->
     <string name="app_name">TrackMe</string>
+    <!-- BUTTON VALUES -->
+    <!-- TEXTVIEWS VALUES -->
+    <string name="longitude_textview_text">Longitude</string>
+    <string name="latitude_textview_text">Latitude</string>
+    <string name="last_update_text">Last Update</string>
+    <string name="locate_button_text">Locate</string>
+    <string name="accuracy_view_text">Accuracy</string>
+    <string name="null_textview"/>
 </resources>

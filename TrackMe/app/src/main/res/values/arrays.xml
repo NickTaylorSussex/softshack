@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="languages">
+        <item>Arabic (ar)</item>
+        <item>Bulgarian (bg)</item>
+        <item>Chinese Simplified (zh-CHS)</item>
+        <item>Chinese Traditional (zh-CHT)</item>
+        <item>Catalan (ca)</item>
+        <item>Czech (cs)</item>
+        <item>Danish (da)</item>
+        <item>Dutch (nl)</item>
+        <item>English (en)</item>
+        <item>Estonian (et)</item>
+        <item>Filipino (tl)</item>
+        <item>Finnish (fi)</item>
+        <item>French (fr)</item>
+        <item>German (de)</item>
+        <item>Greek (el)</item>
+        <item>Haitian Creole (ht)</item>
+        <item>Hebrew (he)</item>
+        <item>Hindi (hi)</item>
+        <item>Hmong Daw (mww)</item>
+        <item>Hungarian (hu)</item>
+        <item>Indonesian (id)</item>
+        <item>Italian (it)</item>
+        <item>Japanese (ja)</item>
+        <item>Klingon (tlh)</item>
+        <item>Klingon (pIqaD) (tlh-Qaak)</item>
+        <item>Korean (ko)</item>
+        <item>Latvian (lv)</item>
+        <item>Lithuanian (lt)</item>
+        <item>Malay (ms)</item>
+        <item>Maltese (mt)</item>
+        <item>Norwegian (no)</item>
+        <item>Persian (fa)</item>
+        <item>Polish (pl)</item>
+        <item>Portuguese (pt-PT)</item>
+        <item>Romanian (ro)</item>
+        <item>Russian (ru)</item>
+        <item>Slovak (sk)</item>
+        <item>Slovenian (sl)</item>
+        <item>Spanish (es)</item>
+        <item>Swedish (sv)</item>
+        <item>Thai (th)</item>
+        <item>Turkish (tr)</item>
+        <item>Ukrainian (uk)</item>
+        <item>Urdu (ur)</item>
+        <item>Vietnamese (vi)</item>
+        <item>Welsh (cy)</item>
+    </array>
+
+</resources>
