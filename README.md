@@ -1,1 +1,13 @@
-First, and after downloading TrackMe application, go to settings, choose TrackMe, then click on "Permissions" and turn on the location.  After that, make sure that location settings on your mobile phone is turned on too by going to settings, clicking on "Location" and then turn it on and set the "Mode" to "High accuracy".  Now lunch the app and click "Locate".  The application will show information about your current location, which are latitude, longitude, accuracy, and last update date and time. It will also demonstrate the location on Google map.  If the location setting is not turned on when the app is lunched, it will automatically take you to the location settings page to help you turn it on.  You can click "Locate" button whenever you want to update the location information. 
+To use the TrackMe application, you need to allow the application to use your current location. To do so go to Settings -> Apps, choose TrackMe, then click on Permissions and allow Location.
+
+Additionally, ensure the location settings on your device are turned on by going to Settings, clicking on Location, turn on and set the Mode to High accuracy.
+
+Launch the TrackMe app and click Locate.  
+
+TrackMe will show information about your current location, namely latitude, longitude, accuracy, and when the location last updated. 
+
+TrackMe will also show your location on a Google map.  
+
+To refresh your current location within TrackMe click the Locate button.
+
+When TrackMe is launched it will automatically take you to the location settings page if those settings are switched off.
