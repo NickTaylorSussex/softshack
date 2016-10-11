@@ -26,6 +26,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private final String MESSAGE_LOCATION_UPDATED = "Location Updated";
 	private final String MESSAGE_COORD_PROBLEM = "Problem with GPS, please click locate";
 	private final String MESSAGE_REQEUST_PERMISSION = "Enable Location Services";
+	private int versionCode= BuildConfig.VERSION_CODE;
+	private String versionName=BuildConfig.VERSION_NAME;
 
 	private Toast toast;
 	private TextView latitudeTextView;
