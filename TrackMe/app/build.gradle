@@ -1,5 +1,12 @@
 apply plugin: 'com.android.application'
 
+// Add libs dir as a repository
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
@@ -8,6 +15,20 @@ android {
         applicationId "org.softshack"
         minSdkVersion 14
         targetSdkVersion 23
+
+        // Kumulos
+        // Add the sender ID to use push notifications with GCM
+        // Leave blank if you don't want to configure push
+        manifestPlaceholders = [
+        kumulos_gcm_sender_id: ''
+        ]
+    }
+
+    // Exclude conflicting files from the build for kumulos
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
     }
 
     buildTypes {
@@ -20,4 +41,12 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:24.0.0'
+    // Kumulos dependencies
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.5'
+    // Required for Kumulos push notifications
+    compile 'com.google.android.gms:play-services-gcm:+'
+    // Kumulos debug & release libraries
+    debugCompile(name: 'kumulos-2.1.0-debug', ext: 'aar')
+    releaseCompile(name: 'kumulos-2.1.0-release', ext: 'aar')
 }

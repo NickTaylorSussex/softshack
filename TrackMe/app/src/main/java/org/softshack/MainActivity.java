@@ -3,6 +3,8 @@ package org.softshack;
 import org.softshack.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +20,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.kumulos.android.Kumulos;
+import com.kumulos.android.ResponseHandler;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -73,6 +77,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		webView.setVisibility(0);
 
 		isPermissionGiven();
+
+		Kumulos.initWithAPIKeyAndSecretKey("aa9f74c2-af42-465a-8d42-4d9a00a1018f", "7wNnqwlXx8zZcdwsQbhMBac/TeMlr90+j6Ta", this);
 	}
 
 	public void onStart(Bundle savedInstanceState) {
@@ -136,6 +142,17 @@ public class MainActivity extends Activity implements OnClickListener {
 					}
 
 					displayMessage(MESSAGE_LOCATION_UPDATED);
+
+					HashMap<String, String> params = new HashMap<String, String>();
+					params.put("deviceId", "123456");
+					params.put("location", latitude);
+
+                    Kumulos.call("storeLocation", params, new ResponseHandler() {
+                        @Override
+                        public void didCompleteWithResult(Object result) {
+                            // Do updates to UI/data models based on result
+                        }
+                });
 				//}
 			}
 
