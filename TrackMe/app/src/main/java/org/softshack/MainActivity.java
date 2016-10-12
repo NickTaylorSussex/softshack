@@ -57,22 +57,22 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		View createButton = findViewById(R.id.locate_button);
 		createButton.setOnClickListener(this);
-		latitudeTextView = (TextView) findViewById(R.id.latitude_textiew);
+		latitudeTextView = (TextView) findViewById(R.id.latitude_textview);
 		latitudeTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.define_location, 0, 0, 0);
-		latitudeValueTextView = (TextView) findViewById(R.id.latitude_value_textiew);
-		longitudeTextView = (TextView) findViewById(R.id.longitude_textiew);
+		latitudeValueTextView = (TextView) findViewById(R.id.latitude_value_textview);
+		longitudeTextView = (TextView) findViewById(R.id.longitude_textview);
 		longitudeTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.define_location, 0, 0, 0);
-		longitudeValueTextView = (TextView) findViewById(R.id.longitude_value_textiew);
+		longitudeValueTextView = (TextView) findViewById(R.id.longitude_value_textview);
 		accuracyTextView = (TextView) findViewById(R.id.accuracy_textview);
 		accuracyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.info, 0, 0, 0);
-		accuracyValueTextView = (TextView) findViewById(R.id.accuracy_value_textiew);
+		accuracyValueTextView = (TextView) findViewById(R.id.accuracy_value_textview);
 		lastUpdateTextView = (TextView) findViewById(R.id.last_update_view);
 		lastUpdateValueTextView = (TextView) findViewById(R.id.last_update_date);
 
 		webView = (WebView) findViewById(R.id.map_view);
 		webView.setWebViewClient(new WebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
-		webView.setVisibility(0);
+		webView.setVisibility(View.INVISIBLE);
 
 		isPermissionGiven();
 	}
@@ -116,7 +116,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			if (isPermissionGiven()) {
 				GPS gps = new GPS(context);
 				// convert returned GPS coordinates to strings
-				//if (isCoordValid(gps.getLatitude(), gps.getLongitude())) {
+				if (isCoordValid(gps.getLatitude(), gps.getLongitude())){
+				// checks if the coordinates are not 0,0
 					String latitude = String.valueOf(gps.getLatitude());
 					String longitude = String.valueOf(gps.getLongitude());
 					String accuracy = String.valueOf(gps.getAccuracy());
@@ -132,13 +133,14 @@ public class MainActivity extends Activity implements OnClickListener {
 
 					// check if internet is available and view map accordingly
 					if (isInternetAvailable(context)) {
+						webView.setVisibility(View.VISIBLE);
 						webView.loadUrl(GOOGLE_MAP_URL + latitude + "," + longitude);
 					} else {
 						displayMessage("Map not available - No internet connection");
 					}
 
 					displayMessage(MESSAGE_LOCATION_UPDATED);
-				//}
+				}
 			}
 
 			break;
