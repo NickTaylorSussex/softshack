@@ -62,6 +62,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
+		View settingsButton = findViewById(R.id. settingsButton);
+		settingsButton.setOnClickListener(this);
+
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(BAR_COLOUR)));
 		context = getApplicationContext();
@@ -119,11 +122,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	/**
 	 * OnClickListener catches which button is pressed and takes action
 	 * accordingly.
-	 * 
+	 *
 	 * @param View button clicked
 	 */
 	@Override
 	public void onClick(View button) {
+
 		switch (button.getId()) {
 		case R.id.locate_button:
 
@@ -204,7 +208,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	/**
 	 * Checks if received coordinates are valid. Notifies user accordingly.
-	 * 
+	 *
 	 * @return boolean validation of coords
 	 */
 	private boolean isCoordValid(double latitude, double longitude) {
@@ -218,14 +222,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	/**
 	 * Takes a parameter message and displays to the user interface. Used to
 	 * notify, warn user.
-	 * 
+	 *
 	 * @param messsage
 	 */
 	public void displayMessage(String message) {
 		toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
 		toast.show();
 	}
-	
+
     /**
      * @returns boolean status of the Internet connectivity
      * */
