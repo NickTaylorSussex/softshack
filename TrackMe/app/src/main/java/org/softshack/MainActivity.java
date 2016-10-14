@@ -4,11 +4,13 @@ import org.softshack.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.UUID;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.kumulos.android.Kumulos;
 import com.kumulos.android.ResponseHandler;
+
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -44,6 +47,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	private WebView webView;
 	private Calendar calendar;
 	private SimpleDateFormat dateFormat;
+    private SimpleDateFormat dateStorageFormat;
+    private static final String PREFS_FILE = "device_id.xml";
+    private static final String PREFS_DEVICE_ID = "device_id";
+    private static UUID uuid;
 
 	/**
 	 * Builds the user interface.
@@ -79,6 +86,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		isPermissionGiven();
 
 		Kumulos.initWithAPIKeyAndSecretKey("aa9f74c2-af42-465a-8d42-4d9a00a1018f", "7wNnqwlXx8zZcdwsQbhMBac/TeMlr90+j6Ta", this);
+
 	}
 
 	public void onStart(Bundle savedInstanceState) {
@@ -143,16 +151,41 @@ public class MainActivity extends Activity implements OnClickListener {
 
 					displayMessage(MESSAGE_LOCATION_UPDATED);
 
-					HashMap<String, String> params = new HashMap<String, String>();
-					params.put("deviceId", "123456");
-					params.put("location", latitude);
+                    // Get the identifier for the device. We are not using the device Id since this will not
+                    // change between hard resets of the device - when perhaps the owner has changed.
+                    // Therefore we use a generated id that will persist for app restarts but not hard resets
+                    // of the device.
+                    if(uuid == null){
+                        final SharedPreferences prefs = context.getSharedPreferences(PREFS_FILE, 0);
+                        final String id = prefs.getString(PREFS_DEVICE_ID, null);
+                        if (id != null) {
+                            // Use the ids previously computed and stored in the prefs file.
+                            uuid = UUID.fromString(id);
+                        } else {
+                            uuid = UUID.randomUUID();
 
-                    Kumulos.call("storeLocation", params, new ResponseHandler() {
-                        @Override
-                        public void didCompleteWithResult(Object result) {
-                            // Do updates to UI/data models based on result
+                            prefs.edit()
+                                    .putString(PREFS_DEVICE_ID, uuid.toString())
+                                    .commit();
                         }
-                });
+                    }
+
+                    if(uuid != null) {
+                        HashMap<String, String> params = new HashMap<String, String>();
+                        params.put("localId", java.util.UUID.randomUUID().toString());
+                        params.put("androidId", uuid.toString());
+                        params.put("latitude", latitude);
+                        params.put("longitude", longitude);
+						long unixTime = System.currentTimeMillis() / 1000L;
+                        params.put("timeReported", String.valueOf(unixTime));
+
+                        Kumulos.call("reportLocation", params, new ResponseHandler() {
+                            @Override
+                            public void didCompleteWithResult(Object result) {
+                                // Do updates to UI/data models based on result
+                            }
+                        });
+                    }
 				//}
 			}
 
