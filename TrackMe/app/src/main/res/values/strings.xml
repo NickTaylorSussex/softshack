@@ -9,10 +9,13 @@
     <string name="last_update_text">Last Update</string>
     <string name="locate_button_text">Locate</string>
     <string name="accuracy_view_text">Accuracy</string>
-    <string name="null_textview"/>
+    <string name="null_textview" />
     <string name="pref_catOne">Category One</string>
     <string name="pref_catTwo">Category Two</string>
     <string name="pref_mockCheckBoxOne">CheckBox One</string>
     <string name="pref_mockCheckBoxTwo">CheckBox Two</string>
     <string name="pref_mockCheckBoxSummary">Some Description</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

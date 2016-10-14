@@ -5,7 +5,7 @@ def versionMinor = 1
 def versionPatch = 0
 
 // Add libs dir as a repository
-repositories{
+repositories {
     flatDir {
         dirs 'libs'
     }
@@ -26,7 +26,7 @@ android {
         // Add the sender ID to use push notifications with GCM
         // Leave blank if you don't want to configure push
         manifestPlaceholders = [
-        kumulos_gcm_sender_id: ''
+                kumulos_gcm_sender_id: ''
         ]
     }
 
@@ -47,13 +47,13 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.0.0'
     // Kumulos dependencies
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.5'
     // Required for Kumulos push notifications
-    compile 'com.google.android.gms:play-services-gcm:+'
     // Kumulos debug & release libraries
     debugCompile(name: 'kumulos-2.1.0-debug', ext: 'aar')
     releaseCompile(name: 'kumulos-2.1.0-release', ext: 'aar')
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.5'
+    compile 'com.google.android.gms:play-services-gcm:9.6.1'
 }
