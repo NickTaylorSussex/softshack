@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_catOne"
+        android:key="pref_key_catOne" >
+        <CheckBoxPreference
+            android:key="mockCheckBox"
+            android:defaultValue="true"
+            android:title="@string/pref_mockCheckBoxOne"
+            android:summary="@string/pref_mockCheckBoxSummary" />
+        <CheckBoxPreference
+            android:key="mockCheckBox"
+            android:defaultValue="true"
+            android:title="@string/pref_mockCheckBoxTwo"
+            android:summary="@string/pref_mockCheckBoxSummary" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_catTwo"
+        android:key="pref_key_catTwo" >
+    </PreferenceCategory>
+</PreferenceScreen>
