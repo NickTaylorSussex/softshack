@@ -48,13 +48,21 @@ public class ListViewAdapter extends BaseAdapter {
         return 0;
     }
 
+    @Override
+    public int getViewTypeCount() {
 
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-
-
 
         LayoutInflater inflater=activity.getLayoutInflater();
 

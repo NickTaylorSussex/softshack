@@ -25,21 +25,23 @@ public class VisualiseDatabaseActivity extends Activity {
         setContentView(R.layout.activity_visualise_database);
 
         ListView listView = (ListView)findViewById(R.id.listView);
-        list = new ArrayList<HashMap<String,String>>();
+        list = new ArrayList<>();
 
-        HashMap<String,String> temp=new HashMap<String, String>();
+        HashMap<String,String> temp= new HashMap<>();
             temp.put(FIRST_COLUMN, "Latitude");
             temp.put(SECOND_COLUMN, "Longitude");
             temp.put(THIRD_COLUMN, "Time");
             temp.put(FOURTH_COLUMN, "Sync?");
         list.add(temp);
 
-        HashMap<String,String> temp2=new HashMap<String, String>();
+        for (int i=1; i<=40; i++) {
+            HashMap<String, String> temp2 = new HashMap<>();
             temp2.put(FIRST_COLUMN, "1.0000");
             temp2.put(SECOND_COLUMN, "1.000");
             temp2.put(THIRD_COLUMN, "12:00");
             temp2.put(FOURTH_COLUMN, "False");
-        list.add(temp2);
+            list.add(temp2);
+        }
 
         ListViewAdapter adapter = new ListViewAdapter(this,list);
         listView.setAdapter(adapter);
