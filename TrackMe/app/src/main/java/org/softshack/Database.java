@@ -22,31 +22,32 @@ public class Database extends SQLiteOpenHelper {
     private static final String LOCAL_ID="lid";
     private static final String LATITUDE="latitude";
     private static final String LONGITUDE="longitude";
-    private static final String TIME="time";
-    private static final String DATE="date";
+    private static final String DATE_TIME="datetime";
+    private static final String IN_THE_CLOUD="inthecloud";
+
 
     private Context currentContext;
-    private static final String[] TABLE_COLUMNS={ANDROID_ID,LOCAL_ID, LATITUDE,LONGITUDE,TIME, DATE};
+    private static final String[] TABLE_COLUMNS={ANDROID_ID,LOCAL_ID, LATITUDE,LONGITUDE,DATE_TIME};
 
     public Database(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.currentContext=context;
     }
 
-
+    @Override
     public void onCreate(SQLiteDatabase db){
-        String trackmeTableSql="CREATE TABLE trackme("+"id INTEGER PRIMARY KEY AUTOINCREMENT,"+"latitude LATITUDE,"+"longitude LONGITUDE,"+"time TIME,"+"date DATE)";
-        db.execSQL(trackmeTableSql);
+        String locationsTableSql="CREATE TABLE locations (id TEXT, lid TEXT,latitude TEXT, longitude TEXT, datetime TEXT, inthecloud INTEGER)";
+        db.execSQL(locationsTableSql);
     }
-
+    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        db.execSQL("DROP TABLE IF EXISTS trackme");
+        db.execSQL("DROP TABLE IF EXISTS locations");
         this.onCreate(db);
 
         ////////to access the database instantiate the subclass Database aDB=new Database(getContext());
     }
 
-    public void insert(String id_value, String lid_value, String latitude_value, String longitude_value, String date_value, String time_value ){
+    public void insert(String id_value, String lid_value, String latitude_value, String longitude_value, String datetime_value, boolean inthecloud_value){
         SQLiteDatabase db=getWritableDatabase();
 
         ContentValues values=new ContentValues();
@@ -54,8 +55,8 @@ public class Database extends SQLiteOpenHelper {
         values.put(LOCAL_ID, lid_value);
         values.put(LATITUDE, latitude_value);
         values.put(LONGITUDE, longitude_value);
-        values.put(DATE, date_value);
-        values.put(TIME, time_value);
+        values.put(DATE_TIME, datetime_value);
+        values.put(IN_THE_CLOUD, inthecloud_value);
 
         db.insert(TABLE_NAME, null, values);
 
