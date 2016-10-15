@@ -1,6 +1,5 @@
 package org.softshack;
 
-import org.softshack.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -66,8 +65,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
-		View settingsButton = findViewById(R.id. settingsButton);
+		View settingsButton = findViewById(R.id.settingsButton);
 		settingsButton.setOnClickListener(this);
+
+		View logButton = findViewById(R.id.logButton);
+		logButton.setOnClickListener(this);
 
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(BAR_COLOUR)));
@@ -219,6 +221,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			case R.id.settingsButton:
 				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
+				break;
+			case R.id.logButton:
+				Intent logIntent = new Intent(this, VisualiseDatabaseActivity.class);
+				startActivity(logIntent);
 				break;
 		}
 	}
