@@ -101,14 +101,13 @@
 />
 
     <Button
-        android:text="Button"
+        android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/accuracy_textview"
+        android:id="@+id/settingsButton"
+        android:layout_alignBaseline="@+id/latitude_textview"
+        android:layout_alignBottom="@+id/latitude_textview"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="28dp"
-        android:layout_marginEnd="28dp"
-        android:id="@+id/settingsButton" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
