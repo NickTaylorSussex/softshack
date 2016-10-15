@@ -100,4 +100,14 @@
     android:layout_below="@+id/locate_button"
 />
 
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsButton"
+        android:layout_alignBaseline="@+id/latitude_textview"
+        android:layout_alignBottom="@+id/latitude_textview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

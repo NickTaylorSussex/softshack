@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,8 @@ public class MainActivity extends Activity implements OnClickListener {
     private static final String PREFS_DEVICE_ID = "device_id";
     private static UUID uuid;
 
+	private SharedPreferences SP;
+
 	/**
 	 * Builds the user interface.
 	 * @param Bundle savedInstanceState of the user interface
@@ -61,6 +64,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+
+		View settingsButton = findViewById(R.id. settingsButton);
+		settingsButton.setOnClickListener(this);
 
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(BAR_COLOUR)));
@@ -86,6 +92,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		webView.setVisibility(View.INVISIBLE);
 
 		isPermissionGiven();
+
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+		//Get preference for cloud connection and assign to a boolean with default true.
+		SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 		Kumulos.initWithAPIKeyAndSecretKey("aa9f74c2-af42-465a-8d42-4d9a00a1018f", "7wNnqwlXx8zZcdwsQbhMBac/TeMlr90+j6Ta", this);
 
@@ -119,11 +130,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	/**
 	 * OnClickListener catches which button is pressed and takes action
 	 * accordingly.
-	 * 
+	 *
 	 * @param View button clicked
 	 */
 	@Override
 	public void onClick(View button) {
+
 		switch (button.getId()) {
 		case R.id.locate_button:
 
@@ -183,24 +195,30 @@ public class MainActivity extends Activity implements OnClickListener {
 						long unixTime = System.currentTimeMillis() / 1000L;
 						params.put("timeReported", String.valueOf(unixTime));
 
-						Kumulos.call("reportLocation", params, new ResponseHandler() {
-							@Override
-							public void didCompleteWithResult(Object result) {
-								// Do updates to UI/data models based on result
-							}
-						});
+						if (SP.getBoolean("cloudConnection", true)) {
+							Kumulos.call("reportLocation", params, new ResponseHandler() {
+								@Override
+								public void didCompleteWithResult(Object result) {
+									// Do updates to UI/data models based on result
+								}
+							});
+						}
 					}
 					//}
 				}
 			}
 			break;
+			case R.id.settingsButton:
+				Intent intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
+				break;
 		}
 	}
 
 
 	/**
 	 * Checks if received coordinates are valid. Notifies user accordingly.
-	 * 
+	 *
 	 * @return boolean validation of coords
 	 */
 	private boolean isCoordValid(double latitude, double longitude) {
@@ -214,14 +232,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	/**
 	 * Takes a parameter message and displays to the user interface. Used to
 	 * notify, warn user.
-	 * 
+	 *
 	 * @param messsage
 	 */
 	public void displayMessage(String message) {
 		toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
 		toast.show();
 	}
-	
+
     /**
      * @returns boolean status of the Internet connectivity
      * */
