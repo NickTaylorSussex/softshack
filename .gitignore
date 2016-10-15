@@ -32,7 +32,6 @@ proguard/
 import-summary.txt
 TrackMe/.idea/compiler.xml
 TrackMe/.idea/copyright/profiles_settings.xml
-TrackMe/.idea/gradle.xml
 TrackMe/.idea/libraries/android_async_http_1_4_9.xml
 TrackMe/.idea/libraries/httpclient_4_3_6.xml
 TrackMe/.idea/libraries/jackson_core_asl_1_8_5.xml
