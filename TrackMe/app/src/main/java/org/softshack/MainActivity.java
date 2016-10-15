@@ -1,6 +1,5 @@
 package org.softshack;
 
-import org.softshack.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -216,7 +215,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 				break;
 			case R.id.logButton:
-				Intent logIntent = new Intent(this, VisualiseDatabase.class);
+				Intent logIntent = new Intent(this, VisualiseDatabaseActivity.class);
 				startActivity(logIntent);
 				break;
 		}

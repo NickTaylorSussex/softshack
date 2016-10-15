@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import static org.softshack.Constants.FOURTH_COLUMN;
 import static org.softshack.Constants.SECOND_COLUMN;
 import static org.softshack.Constants.THIRD_COLUMN;
 
-public class VisualiseDatabase extends Activity {
+public class VisualiseDatabaseActivity extends Activity {
 
     private ArrayList<HashMap<String, String>> list;
 
@@ -51,7 +50,7 @@ public class VisualiseDatabase extends Activity {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
             {
                 int pos=position+1;
-                Toast.makeText(VisualiseDatabase.this, Integer.toString(pos)+" Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VisualiseDatabaseActivity.this, Integer.toString(pos)+" Clicked", Toast.LENGTH_SHORT).show();
             }
 
         });
