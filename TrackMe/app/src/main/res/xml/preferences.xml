@@ -10,7 +10,6 @@
             android:summary="@string/pref_cloudConnectionDescription" />
         <CheckBoxPreference
             android:key="mockCheckBox"
-            android:defaultValue="true"
             android:title="@string/pref_mockCheckBoxTwo"
             android:summary="@string/pref_mockCheckBoxSummary" />
     </PreferenceCategory>
