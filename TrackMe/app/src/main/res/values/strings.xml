@@ -12,7 +12,8 @@
     <string name="null_textview" />
     <string name="pref_catOne">Category One</string>
     <string name="pref_catTwo">Category Two</string>
-    <string name="pref_mockCheckBoxOne">CheckBox One</string>
+    <string name="pref_cloudConnection">Cloud Connection</string>
+    <string name="pref_cloudConnectionDescription">Turn connection to cloud on or off</string>
     <string name="pref_mockCheckBoxTwo">CheckBox Two</string>
     <string name="pref_mockCheckBoxSummary">Some Description</string>
 

@@ -4,13 +4,12 @@
         android:title="@string/pref_catOne"
         android:key="pref_key_catOne" >
         <CheckBoxPreference
-            android:key="mockCheckBox"
+            android:key="cloudConnection"
             android:defaultValue="true"
-            android:title="@string/pref_mockCheckBoxOne"
-            android:summary="@string/pref_mockCheckBoxSummary" />
+            android:title="@string/pref_cloudConnection"
+            android:summary="@string/pref_cloudConnectionDescription" />
         <CheckBoxPreference
             android:key="mockCheckBox"
-            android:defaultValue="true"
             android:title="@string/pref_mockCheckBoxTwo"
             android:summary="@string/pref_mockCheckBoxSummary" />
     </PreferenceCategory>
