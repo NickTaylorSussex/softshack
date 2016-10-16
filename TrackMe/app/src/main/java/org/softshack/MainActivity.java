@@ -71,6 +71,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
+		//Dialog for the disclaimer
 		showDialog(0);
 
 		View settingsButton = findViewById(R.id.settingsButton);
@@ -317,7 +318,9 @@ public class MainActivity extends Activity implements OnClickListener {
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
-	//Show a disclaimer that the user must accept to use the app. Can execute custom logic if accepted. Close application if denied
+	/*
+	* Show a disclaimer that the user must accept to use the app. Can execute custom logic if accepted. Close application if denied
+	* */
 	protected Dialog onCreateDialog(int id){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("This application will record user location data to a database.")
