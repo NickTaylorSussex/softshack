@@ -56,6 +56,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private static UUID uuid;
     private boolean running;
     private boolean started;
+	private Database logs;
 
 	private SharedPreferences SP;
 
@@ -104,6 +105,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 		Kumulos.initWithAPIKeyAndSecretKey("aa9f74c2-af42-465a-8d42-4d9a00a1018f", "7wNnqwlXx8zZcdwsQbhMBac/TeMlr90+j6Ta", this);
+
+		logs=new Database(context);
 
 		if (savedInstanceState != null) {
 			started = savedInstanceState.getBoolean("started");
@@ -265,23 +268,26 @@ public class MainActivity extends Activity implements OnClickListener {
                 }
 
                 if (uuid != null) {
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("localId", java.util.UUID.randomUUID().toString());
-                    params.put("androidId", uuid.toString());
-                    params.put("latitude", latitude);
-                    params.put("longitude", longitude);
-                    long unixTime = System.currentTimeMillis() / 1000L;
-                    params.put("timeReported", String.valueOf(unixTime));
+						String localId=java.util.UUID.randomUUID().toString();
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("localId", localId);
+						params.put("androidId", uuid.toString());
+						params.put("latitude", latitude);
+						params.put("longitude", longitude);
+						long unixTime = System.currentTimeMillis() / 1000L;
+						params.put("timeReported", String.valueOf(unixTime));
+						//
 
-                    if (SP.getBoolean("cloudConnection", true)) {
-                        Kumulos.call("reportLocation", params, new ResponseHandler() {
-                            @Override
-                            public void didCompleteWithResult(Object result) {
-                                // Do updates to UI/data models based on result
-                            }
-                        });
-                    }
-                }
+						logs.insert(uuid.toString(), localId, latitude, longitude, String.valueOf(unixTime),true);
+						if (SP.getBoolean("cloudConnection", true)) {
+							Kumulos.call("reportLocation", params, new ResponseHandler() {
+								@Override
+								public void didCompleteWithResult(Object result) {
+									// Do updates to UI/data models based on result
+								}
+							});
+						}
+					}
                 //}
             }
         }
