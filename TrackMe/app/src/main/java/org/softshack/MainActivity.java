@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
@@ -53,6 +54,8 @@ public class MainActivity extends Activity implements OnClickListener {
     private static final String PREFS_FILE = "device_id.xml";
     private static final String PREFS_DEVICE_ID = "device_id";
     private static UUID uuid;
+    private boolean running;
+    private boolean started;
 	private Database logs;
 
 	private SharedPreferences SP;
@@ -105,17 +108,26 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		logs=new Database(context);
 
+		if (savedInstanceState != null) {
+			started = savedInstanceState.getBoolean("started");
+			running = savedInstanceState.getBoolean("running");
+		}
+
+        if (running) {
+            runTimer();
+        }
 	}
 
-	public void onStart(Bundle savedInstanceState) {
+    @Override
+	public void onStart() {
+        super.onStart();
 		isPermissionGiven();
+        if (started){
+            running = started;
+        }
 	}
 
-	public void onResume(Bundle savedInstanceState) {
-		isPermissionGiven();
-	}
-
-	/**
+    /**
 	 * Checks if location services are enabled. Notifies and directs user
 	 * according to the status of the location service.
 	 * @return boolean status of the location service
@@ -142,83 +154,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View button) {
 
 		switch (button.getId()) {
-		case R.id.locate_button:
-
-			if (isPermissionGiven()) {
-				GPS gps = new GPS(context);
-				// convert returned GPS coordinates to strings
-				if (isCoordValid(gps.getLatitude(), gps.getLongitude())) {
-					// checks if the coordinates are not 0,0
-					String latitude = String.valueOf(gps.getLatitude());
-					String longitude = String.valueOf(gps.getLongitude());
-					String accuracy = String.valueOf(gps.getAccuracy());
-					// assign string values to UI components
-					accuracyValueTextView.setText(accuracy);
-					latitudeValueTextView.setText(latitude);
-					longitudeValueTextView.setText(longitude);
-
-					// set date and time for now
-					calendar = Calendar.getInstance();
-					dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-					lastUpdateValueTextView.setText(dateFormat.format(calendar.getTime()));
-
-					// check if internet is available and view map accordingly
-					if (isInternetAvailable(context)) {
-						webView.setVisibility(View.VISIBLE);
-						webView.loadUrl(GOOGLE_MAP_URL + latitude + "," + longitude);
-					} else {
-						displayMessage("Map not available - No internet connection");
-					}
-
-					displayMessage(MESSAGE_LOCATION_UPDATED);
-
-					// Get the identifier for the device. We are not using the device Id since this will not
-					// change between hard resets of the device - when perhaps the owner has changed.
-					// Therefore we use a generated id that will persist for app restarts but not hard resets
-					// of the device.
-					if (uuid == null) {
-						final SharedPreferences prefs = context.getSharedPreferences(PREFS_FILE, 0);
-						final String id = prefs.getString(PREFS_DEVICE_ID, null);
-						if (id != null) {
-							// Use the ids previously computed and stored in the prefs file.
-							uuid = UUID.fromString(id);
-						} else {
-							uuid = UUID.randomUUID();
-
-							prefs.edit()
-									.putString(PREFS_DEVICE_ID, uuid.toString())
-									.commit();
-						}
-
-					}
-
-					if (uuid != null) {
-						String localId=java.util.UUID.randomUUID().toString();
-						HashMap<String, String> params = new HashMap<String, String>();
-						params.put("localId", localId);
-						params.put("androidId", uuid.toString());
-						params.put("latitude", latitude);
-						params.put("longitude", longitude);
-						long unixTime = System.currentTimeMillis() / 1000L;
-						params.put("timeReported", String.valueOf(unixTime));
-						//
-
-						logs.insert(uuid.toString(), localId, latitude, longitude, String.valueOf(unixTime),true);
-						if (SP.getBoolean("cloudConnection", true)) {
-							Kumulos.call("reportLocation", params, new ResponseHandler() {
-								@Override
-								public void didCompleteWithResult(Object result) {
-									// Do updates to UI/data models based on result
-								}
-							});
-						}
-					}
-
-					//}
-				}
-			}
-			break;
-			case R.id.settingsButton:
+            case R.id.locate_button:
+                started = true;
+                running = true;
+                button.setEnabled(!started);
+                runTimer();
+                break;
+            case R.id.settingsButton:
 				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
 				break;
@@ -243,6 +185,114 @@ public class MainActivity extends Activity implements OnClickListener {
 		return true;
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState){
+		savedInstanceState.putBoolean("started", started);
+		savedInstanceState.putBoolean("running", running);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		running = started;
+		isPermissionGiven();
+	}
+
+	@Override
+	public void onStop(){
+		super.onStop();
+        running = false;
+	}
+
+    private void runTimer(){
+        final Handler handler = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(running) {
+                    locate();
+                }
+                handler.postDelayed(this, 9000);
+
+            }
+        });
+    }
+
+    private void locate(){
+        if (isPermissionGiven()) {
+            GPS gps = new GPS(context);
+            // convert returned GPS coordinates to strings
+            if (isCoordValid(gps.getLatitude(), gps.getLongitude())) {
+                // checks if the coordinates are not 0,0
+                String latitude = String.valueOf(gps.getLatitude());
+                String longitude = String.valueOf(gps.getLongitude());
+                String accuracy = String.valueOf(gps.getAccuracy());
+                // assign string values to UI components
+                accuracyValueTextView.setText(accuracy);
+                latitudeValueTextView.setText(latitude);
+                longitudeValueTextView.setText(longitude);
+
+                // set date and time for now
+                calendar = Calendar.getInstance();
+                dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                lastUpdateValueTextView.setText(dateFormat.format(calendar.getTime()));
+
+                // check if internet is available and view map accordingly
+                if (isInternetAvailable(context)) {
+                    webView.setVisibility(View.VISIBLE);
+                    webView.loadUrl(GOOGLE_MAP_URL + latitude + "," + longitude);
+                } else {
+                    displayMessage("Map not available - No internet connection");
+                }
+
+                displayMessage(MESSAGE_LOCATION_UPDATED);
+
+                // Get the identifier for the device. We are not using the device Id since this will not
+                // change between hard resets of the device - when perhaps the owner has changed.
+                // Therefore we use a generated id that will persist for app restarts but not hard resets
+                // of the device.
+                if (uuid == null) {
+                    final SharedPreferences prefs = context.getSharedPreferences(PREFS_FILE, 0);
+                    final String id = prefs.getString(PREFS_DEVICE_ID, null);
+                    if (id != null) {
+                        // Use the ids previously computed and stored in the prefs file.
+                        uuid = UUID.fromString(id);
+                    } else {
+                        uuid = UUID.randomUUID();
+
+                        prefs.edit()
+                                .putString(PREFS_DEVICE_ID, uuid.toString())
+                                .commit();
+                    }
+                }
+
+                if (uuid != null) {
+						String localId=java.util.UUID.randomUUID().toString();
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("localId", localId);
+						params.put("androidId", uuid.toString());
+						params.put("latitude", latitude);
+						params.put("longitude", longitude);
+						long unixTime = System.currentTimeMillis() / 1000L;
+						params.put("timeReported", String.valueOf(unixTime));
+						//
+
+						logs.insert(uuid.toString(), localId, latitude, longitude, String.valueOf(unixTime),true);
+						if (SP.getBoolean("cloudConnection", true)) {
+							Kumulos.call("reportLocation", params, new ResponseHandler() {
+								@Override
+								public void didCompleteWithResult(Object result) {
+									// Do updates to UI/data models based on result
+								}
+							});
+						}
+					}
+                //}
+            }
+        }
+    }
+
 	/**
 	 * Takes a parameter message and displays to the user interface. Used to
 	 * notify, warn user.
@@ -265,9 +315,11 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * Calls the finish method and ends the activity.
      * */
+	@Override
 	public void onDestroy() {
+        started = false;
+        running = false;
 		super.onDestroy();
 		finish();
 	}
-
 }
