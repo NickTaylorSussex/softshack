@@ -6,7 +6,7 @@
     android:paddingRight="@+dimen/padding_size" >
 
     <TextView
-        android:id="@+id/latitude_textiew"
+        android:id="@+id/latitude_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@+string/latitude_textview_text"
@@ -17,18 +17,18 @@
         android:paddingRight="@+dimen/padding_size"/>
 
     <TextView
-        android:id="@+id/latitude_value_textiew"
+        android:id="@+id/latitude_value_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/latitude_textiew"
+        android:layout_below="@+id/latitude_textview"
         android:text="@+string/null_textview" 
         android:paddingLeft="@+dimen/padding_size_extra"/>
 
     <TextView
-        android:id="@+id/longitude_textiew"
+        android:id="@+id/longitude_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/latitude_value_textiew"
+        android:layout_below="@+id/latitude_value_textview"
         android:text="@+string/longitude_textview_text"
         android:textSize="@+dimen/textview_large"
         android:textStyle="bold" 
@@ -37,10 +37,10 @@
         android:paddingRight="@+dimen/padding_size"/>
 
     <TextView
-        android:id="@+id/longitude_value_textiew"
+        android:id="@+id/longitude_value_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/longitude_textiew"
+        android:layout_below="@+id/longitude_textview"
         android:text="@+string/null_textview" 
         android:paddingLeft="@+dimen/padding_size_extra" />
 
@@ -48,7 +48,7 @@
         android:id="@+id/accuracy_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/longitude_value_textiew"
+        android:layout_below="@+id/longitude_value_textview"
         android:text="@+string/accuracy_view_text"
         android:textSize="@+dimen/textview_large"
         android:textStyle="bold" 
@@ -57,7 +57,7 @@
         android:paddingRight="@+dimen/padding_size" />
     
         <TextView
-        android:id="@+id/accuracy_value_textiew"
+        android:id="@+id/accuracy_value_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/accuracy_textview"
@@ -68,7 +68,7 @@
         android:id="@+id/last_update_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/accuracy_value_textiew"
+        android:layout_below="@+id/accuracy_value_textview"
         android:text="@+string/last_update_text"
         android:textSize="@+dimen/textview_large"
         android:textStyle="bold" 
@@ -99,5 +99,24 @@
     android:layout_height="fill_parent"
     android:layout_below="@+id/locate_button"
 />
+
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsButton"
+        android:layout_alignBaseline="@+id/latitude_textview"
+        android:layout_alignBottom="@+id/latitude_textview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settingsButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/logButton" />
 
 </RelativeLayout>

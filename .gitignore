@@ -30,3 +30,4 @@ proguard/
 
 # Import files
 import-summary.txt
+TrackMe/.idea/**/.xml

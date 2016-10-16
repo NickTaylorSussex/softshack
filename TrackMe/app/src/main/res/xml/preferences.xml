@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_catOne"
+        android:key="pref_key_catOne" >
+        <CheckBoxPreference
+            android:key="cloudConnection"
+            android:defaultValue="true"
+            android:title="@string/pref_cloudConnection"
+            android:summary="@string/pref_cloudConnectionDescription" />
+    </PreferenceCategory>
+</PreferenceScreen>
