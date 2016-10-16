@@ -61,6 +61,9 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     @Override
+    /*
+    * Assign 4 columns per row of the listView
+    * */
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
 

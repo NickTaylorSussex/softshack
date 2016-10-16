@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/*
+* SettingsFragment, uses preferences.xml from res to show options.
+* */
 public class SettingsFragment extends PreferenceFragment {
 
     @Override

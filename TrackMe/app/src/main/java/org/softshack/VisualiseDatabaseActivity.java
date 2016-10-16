@@ -12,6 +12,9 @@ import static org.softshack.Constants.FOURTH_COLUMN;
 import static org.softshack.Constants.SECOND_COLUMN;
 import static org.softshack.Constants.THIRD_COLUMN;
 
+/*
+* Log for displaying local database uses HashMaps in listView.
+* */
 public class VisualiseDatabaseActivity extends Activity {
 
     private ArrayList<HashMap<String, String>> list;

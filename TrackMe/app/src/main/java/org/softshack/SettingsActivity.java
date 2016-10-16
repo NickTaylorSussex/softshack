@@ -9,6 +9,9 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+/*
+* SettingsActivity, displays the SettingsFragment
+* */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SharedPreferences pref;

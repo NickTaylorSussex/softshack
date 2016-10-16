@@ -1,5 +1,8 @@
 package org.softshack;
 
+/*
+* Class containing the constants used in the settings page listView.
+* */
 public class Constants {
 
     public static final String FIRST_COLUMN="First";
