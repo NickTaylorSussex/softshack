@@ -8,13 +8,5 @@
             android:defaultValue="true"
             android:title="@string/pref_cloudConnection"
             android:summary="@string/pref_cloudConnectionDescription" />
-        <CheckBoxPreference
-            android:key="mockCheckBox"
-            android:title="@string/pref_mockCheckBoxTwo"
-            android:summary="@string/pref_mockCheckBoxSummary" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_catTwo"
-        android:key="pref_key_catTwo" >
     </PreferenceCategory>
 </PreferenceScreen>

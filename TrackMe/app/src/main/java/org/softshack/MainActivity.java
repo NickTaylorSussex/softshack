@@ -7,7 +7,10 @@ import java.util.UUID;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -67,6 +70,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+
+		showDialog(0);
 
 		View settingsButton = findViewById(R.id.settingsButton);
 		settingsButton.setOnClickListener(this);
@@ -311,6 +316,26 @@ public class MainActivity extends Activity implements OnClickListener {
         final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
+
+	//Show a disclaimer that the user must accept to use the app. Can execute custom logic if accepted. Close application if denied
+	protected Dialog onCreateDialog(int id){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("This application will record user location data to a database.")
+				.setCancelable(false)
+				.setPositiveButton("Agree", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// Can execute custom stuff here if user accepts
+					}
+				})
+				.setNegativeButton("Disagree", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						//nm.cancel(R.notification.running); // cancel the NotificationManager (icon)
+						System.exit(0);
+					}
+				});
+		AlertDialog alert = builder.create();
+		return alert;
+	}
 
     /**
      * Calls the finish method and ends the activity.
