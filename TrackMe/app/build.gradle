@@ -11,13 +11,13 @@ repositories {
     }
 }
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.softshack"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 22
 
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -43,6 +43,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+        debug {
+            // Extra fields used to configure Robolectric test suites.
+            buildConfigField "int", "TEST_TARGET_SDK_VERSION", "22"
+            buildConfigField "String", "CANONICAL_APPLICATION_ID", "\"org.softshack\""
+        }
     }
 }
 
@@ -52,8 +57,11 @@ dependencies {
     // Kumulos debug & release libraries
     debugCompile(name: 'kumulos-2.1.0-debug', ext: 'aar')
     releaseCompile(name: 'kumulos-2.1.0-release', ext: 'aar')
-    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:support-v4:22.2.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.5'
     compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    testCompile 'org.robolectric:robolectric:3.1.2'
+    testCompile 'junit:junit:4.11'
+
 }
