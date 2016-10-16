@@ -2,10 +2,7 @@ package org.softshack;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +24,7 @@ public class VisualiseDatabaseActivity extends Activity {
         ListView listView = (ListView)findViewById(R.id.listView);
         list = new ArrayList<>();
 
+        //Add Headers To Represent Database Columns
         HashMap<String,String> temp= new HashMap<>();
             temp.put(FIRST_COLUMN, "Latitude");
             temp.put(SECOND_COLUMN, "Longitude");
@@ -34,19 +32,21 @@ public class VisualiseDatabaseActivity extends Activity {
             temp.put(FOURTH_COLUMN, "Sync?");
         list.add(temp);
 
-        for (int i=1; i<=40; i++) {
+
+        /*for (int i=1; i<=40; i++) {
             HashMap<String, String> temp2 = new HashMap<>();
             temp2.put(FIRST_COLUMN, "1.0000");
             temp2.put(SECOND_COLUMN, "1.000");
             temp2.put(THIRD_COLUMN, "12:00");
             temp2.put(FOURTH_COLUMN, "False");
             list.add(temp2);
-        }
+        }*/
 
         ListViewAdapter adapter = new ListViewAdapter(this,list);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
@@ -55,7 +55,7 @@ public class VisualiseDatabaseActivity extends Activity {
                 Toast.makeText(VisualiseDatabaseActivity.this, Integer.toString(pos)+" Clicked", Toast.LENGTH_SHORT).show();
             }
 
-        });
+        });*/
 
     }
 }
