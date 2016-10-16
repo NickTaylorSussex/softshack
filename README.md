@@ -1,13 +1,7 @@
-To use the TrackMe application, you need to allow the application to use your current location. To do so go to Settings -> Apps, choose TrackMe, then click on Permissions and allow Location.
+TrackMe is a student project undertaken for the Advanced Software Engineering module at the University of Sussex. 
 
-Additionally, ensure the location settings on your device are turned on by going to Settings -> Location, turn on and set the Mode to High accuracy.
+For the application to function as intended the user must turn on their Location setting and set the mode to high accuracy (if not already set by default). The app will ask the user to give permission to access location information on the initial run. 
 
-Launch the TrackMe app and click Locate.  
+Pressing the Locate button will start the main functionality of the application and display the user's current latitude, longitude and the accuracy of this information. The time of the last update will also be displayed. In addition to text information the location will also be shown on the map below. 
 
-TrackMe will show information about your current location, namely latitude, longitude, accuracy, and when the location last updated. 
-
-TrackMe will also show your location on a Google map.  
-
-To refresh your current location within TrackMe click the Locate button.
-
-When TrackMe is launched it will automatically take you to the location settings page if those settings are switched off.
+The location data will be sent to our Kumulos server and stored there. This can be turned off in the settings page if desired. Provisions have been created for storing the location data locally if this setting is turned off but hasn't been fully integrated.
