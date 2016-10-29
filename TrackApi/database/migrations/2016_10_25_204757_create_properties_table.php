@@ -17,7 +17,7 @@ class CreatePropertiesTable extends Migration
             $table->increments('id');
             $table->char('postcode', 8);
             $table->integer('price');
-            $table->dateTime('dateSold');
+            $table->date('dateSold');
             $table->decimal('latitude', 8, 6);
             $table->decimal('longitude', 9, 6);
         });
