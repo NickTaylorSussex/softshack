@@ -21,5 +21,5 @@ $app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
 
 
 $app->get('/', function () use ($app) {
-  return 'Hi!';
+    return $app->version();
 });
