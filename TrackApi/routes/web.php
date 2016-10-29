@@ -18,3 +18,8 @@ $app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
     return $results;
 
 });
+
+
+$app->get('/', function () use ($app) {
+  return 'Hi!';
+});
