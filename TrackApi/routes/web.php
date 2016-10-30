@@ -17,7 +17,7 @@ $app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
     * cos( radians( latitude ) ) * cos( radians( longitude )
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM properties
-    WHERE dateSold > '2016-01-01' HAVING distance < 80
+    WHERE dateSold > '2016-01-01' HAVING distance < 90
     ORDER BY distance LIMIT 0 , 1000");
 
     return $results;
