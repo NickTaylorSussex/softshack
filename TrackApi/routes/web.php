@@ -11,6 +11,8 @@
 |
 */
 
+
+/*
 $app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
 
     $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
@@ -23,6 +25,23 @@ $app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
     return $results;
 
 });
+*/
+
+$app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
+
+    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
+    * cos( radians( latitude ) ) * cos( radians( longitude )
+    - radians($paramY) ) + sin( radians($paramX) )
+    * sin( radians( latitude ) ) ) ) AS distance FROM processed_properties
+    WHERE yearSold > '2015' HAVING distance < 90
+    ORDER BY distance LIMIT 0 , 1000");
+
+    return $results;
+
+});
+
+
+
 
 $app->get('/', function () use ($app) {
     return $app->version();
