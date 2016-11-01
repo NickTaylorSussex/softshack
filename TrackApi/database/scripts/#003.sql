@@ -1,0 +1,1 @@
+ALTER TABLE nicksdb.properties ADD column inflatedPrice int (11)

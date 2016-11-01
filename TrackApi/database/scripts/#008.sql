@@ -1,0 +1,2 @@
+insert nicksdb.price (postcode,avgYearPostcodeNorm,latitude,longitude,yearSold)
+select postcode, round(avg(inflatedNorm)), latitude, longitude, yearSold FROM nicksdb.properties group by postcode, yearSold
