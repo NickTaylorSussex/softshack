@@ -1,1 +1,0 @@
-ALTER TABLE nicksdb.properties ADD column yearSold int (4)
