@@ -11,6 +11,20 @@
 |
 */
 
+$app->get('/{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
+
+    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
+    * cos( radians( latitude ) ) * cos( radians( longitude )
+    - radians($paramY) ) + sin( radians($paramX) )
+    * sin( radians( latitude ) ) ) ) AS distance FROM properties
+    WHERE dateSold > '2016-01-01' HAVING distance < 90
+    ORDER BY distance LIMIT 0 , 1000");
+
+    return $results;
+
+});
+
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
