@@ -1,3 +1,3 @@
 /* First script to execute */
 
-ALTER TABLE forge.properties ADD column yearSold INT (4)
+ALTER TABLE forge.DBNAME ADD column yearSold INT (4)

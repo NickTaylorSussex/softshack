@@ -1,3 +1,3 @@
 /* Fifth script to execute */
 
-ALTER TABLE forge.properties ADD column inflatedNorm int (11)
+ALTER TABLE forge.DBNAME ADD column inflatedNorm int (11)

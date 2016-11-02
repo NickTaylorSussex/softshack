@@ -1,3 +1,3 @@
 /* Third script to execute */
 
-ALTER TABLE forge.properties ADD column inflatedPrice int (11)
+ALTER TABLE forge.DBNAME ADD column inflatedPrice int (11)

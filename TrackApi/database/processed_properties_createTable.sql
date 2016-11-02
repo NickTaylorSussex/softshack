@@ -1,6 +1,6 @@
 /* Seventh script to execute */
 
-CREATE TABLE `processed_properties` (
+CREATE TABLE `processed_DBNAME` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `postcode` char(8) NOT NULL,
   `avgYearPostcodeNorm` int(11) NOT NULL,
