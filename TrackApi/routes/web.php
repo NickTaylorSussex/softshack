@@ -24,6 +24,19 @@ $app->get('/clean&{paramX}&{paramY}&{paramZ}', function ($paramX, $paramY, $para
 
 });
 
+$app->get('/clean&{paramX}&{paramY}&{paramZ}&{rad}&{lim}', function ($paramX, $paramY, $paramZ, $rad, $lim) use ($app) {
+
+    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
+    * cos( radians( latitude ) ) * cos( radians( longitude )
+    - radians($paramY) ) + sin( radians($paramX) )
+    * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
+    WHERE yearSold >= ($paramZ) HAVING distance < ($rad)
+    ORDER BY distance LIMIT 0 , ($lim)");
+
+    return $results;
+
+});
+
 $app->get('/dirty&{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
 
     $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
