@@ -11,13 +11,13 @@
 |
 */
 
-$app->get('/clean&{paramX}&{paramY}', function ($paramX, $paramY) use ($app) {
+$app->get('/clean&{paramX}&{paramY}&{paramZ}', function ($paramX, $paramY) use ($app) {
 
     $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
-    WHERE yearSold > '2010' HAVING distance < 100
+    WHERE yearSold >= ($paramZ) HAVING distance < 100
     ORDER BY distance LIMIT 0 , 10000");
 
     return $results;
