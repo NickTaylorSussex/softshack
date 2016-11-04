@@ -11,7 +11,7 @@
 |
 */
 
-$app->get('/clean&{paramX}&{paramY}&{paramZ}', function ($paramX, $paramY) use ($app) {
+$app->get('/clean&{paramX}&{paramY}&{paramZ}', function ($paramX, $paramY, $paramZ) use ($app) {
 
     $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
