@@ -1,4 +1,4 @@
 /* Eighth script to execute */
 
-insert forge.processed_DBNAME (postcode,avgYearPostcodeNorm,latitude,longitude,yearSold)
-select postcode, round(avg(inflatedNorm)), latitude, longitude, yearSold FROM forge.DBNAME group by postcode, yearSold
+INSERT INTO processed_DBNAME (postcode,avgYearPostcodeNorm,latitude,longitude,yearSold)
+SELECT postcode, round(avg(norm)), AVG(latitude), AVG(longitude), yearSold FROM clean_properties GROUP BY postcode, yearSold
