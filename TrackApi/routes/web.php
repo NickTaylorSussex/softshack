@@ -18,7 +18,7 @@ $app->get('/clean/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($para
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
     WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 100000");
+    ORDER BY distance LIMIT 0, 10000");
 
     return $results;
 
@@ -31,7 +31,7 @@ $app->get('/cleanDebug/{paramX}&{paramY}/{paramYear}&{paramRadious}', function (
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
     WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 100000");
+    ORDER BY distance LIMIT 0, 10000");
 
     return $results;
 
@@ -44,7 +44,7 @@ $app->get('/dirty/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($para
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_dirty_properties
     WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 100000");
+    ORDER BY distance LIMIT 0, 10000");
 
     return $results;
 
@@ -57,7 +57,7 @@ $app->get('/dirtyDebug/{paramX}&{paramY}/{paramYear}&{paramRadious}', function (
     - radians($paramY) ) + sin( radians($paramX) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_dirty_properties
     WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 100000");
+    ORDER BY distance LIMIT 0, 10000");
 
     return $results;
 
