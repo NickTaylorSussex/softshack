@@ -1,76 +1,92 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
+//TODO: Create stored procedures on the mysql database to be called from the routes rather then having to create a query everytime a route is called.
+
+/**
+* Listen for a get request, create a query for the processed_clean_properties table based on the Haversine formula.
+*
+* @param  decimal  $paramLatitude   Latitude coordinate
+* @param  decimal  $paramLongitude  Longitude coordinate
+* @param  int      $paramYear       Year of sale
+* @param  int      $paramRadious    Radious used by the Haversine formul
+* @param  int      $paramLimit      Limit for the number of results returned
+*
+* @return array   $results  Results of the SQL query
 */
+$app->get('/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
 
-$app->get('/clean/{paramX}&{paramY}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramX, $paramY, $paramYear, $paramRadious, $paramLimit) use ($app) {
-
-    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramX) )
+    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramLatitude) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
-    - radians($paramY) ) + sin( radians($paramX) )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
-    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
+    WHERE yearSold = ($paramYear) HAVING distance < ($paramRadious)
     ORDER BY distance LIMIT 0, $paramLimit");
 
     return $results;
 
 });
 
-$app->get('/cleanUnordered/{paramX}&{paramY}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramX, $paramY, $paramYear, $paramRadious, $paramLimit) use ($app) {
+//TODO: Delete for production.
+$app->get('/cleanUnordered/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
 
-    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramX) )
+    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramLatitude) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
-    - radians($paramY) ) + sin( radians($paramX) )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
-    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
+    WHERE yearSold = ($paramYear) HAVING distance < ($paramRadious)
     LIMIT 0, $paramLimit");
 
     return $results;
 
 });
 
-$app->get('/cleanDebug/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($paramX, $paramY, $paramYear, $paramRadious) use ($app) {
+//TODO: Delete for production.
+$app->get('/cleanDebug/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
 
-    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
+    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramLatitude) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
-    - radians($paramY) ) + sin( radians($paramX) )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
-    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 10000");
+    WHERE yearSold = ($paramYear) HAVING distance < ($paramRadious)
+    ORDER BY distance LIMIT 0, $paramLimit");
 
     return $results;
 
 });
 
-$app->get('/dirty/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($paramX, $paramY, $paramYear, $paramRadious) use ($app) {
+/**
+* Listen for a get request, create a query for the processed_dirty_properties table based on the Haversine formula.
+*
+* @param  decimal  $paramLatitude   Latitude coordinate
+* @param  decimal  $paramLongitude  Longitude coordinate
+* @param  int      $paramYear       Year of sale
+* @param  int      $paramRadious    Radious used by the Haversine formul
+* @param  int      $paramLimit      Limit for the number of results returned
+*
+* @return array   $results  Results of the SQL query
+*/
+$app->get('/dirty/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
 
-    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramX) )
+    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramLatitude) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
-    - radians($paramY) ) + sin( radians($paramX) )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_dirty_properties
-    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 10000");
+    WHERE yearSold = ($paramYear) HAVING distance < ($paramRadious)
+    ORDER BY distance LIMIT 0, $paramLimit");
 
     return $results;
 
 });
 
-$app->get('/dirtyDebug/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($paramX, $paramY, $paramYear, $paramRadious) use ($app) {
+//TODO: Delete for production.
+$app->get('/dirtyDebug/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
 
-    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramX) )
+    $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramLatitude) )
     * cos( radians( latitude ) ) * cos( radians( longitude )
-    - radians($paramY) ) + sin( radians($paramX) )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM processed_dirty_properties
-    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
-    ORDER BY distance LIMIT 0, 10000");
+    WHERE yearSold = ($paramYear) HAVING distance < ($paramRadious)
+    ORDER BY distance LIMIT 0, $paramLimit");
 
     return $results;
 
