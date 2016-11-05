@@ -24,6 +24,19 @@ $app->get('/clean/{paramX}&{paramY}/{paramYear}&{paramRadious}&{paramLimit}', fu
 
 });
 
+$app->get('/cleanUnordered/{paramX}&{paramY}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramX, $paramY, $paramYear, $paramRadious, $paramLimit) use ($app) {
+
+    $results = DB::select("SELECT latitude, longitude, avgYearPostcodeNorm, ( 3959 * acos( cos( radians($paramX) )
+    * cos( radians( latitude ) ) * cos( radians( longitude )
+    - radians($paramY) ) + sin( radians($paramX) )
+    * sin( radians( latitude ) ) ) ) AS distance FROM processed_clean_properties
+    WHERE yearSold >= ($paramYear) HAVING distance < ($paramRadious)
+    LIMIT 0, $paramLimit");
+
+    return $results;
+
+});
+
 $app->get('/cleanDebug/{paramX}&{paramY}/{paramYear}&{paramRadious}', function ($paramX, $paramY, $paramYear, $paramRadious) use ($app) {
 
     $results = DB::select("SELECT *, ( 3959 * acos( cos( radians($paramX) )
