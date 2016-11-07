@@ -3,13 +3,13 @@ package org.softshack.trackme;
 import org.softshack.utils.obs.*;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -75,11 +75,11 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
 
     /**
      * Maps name of data set to data (list of LatLngs)
-     * Also maps to the URL of the data set for attribution
+     * Also activity_maps to the URL of the data set for attribution
      */
     private HashMap<String, MapDataSet> mLists = new HashMap<String, MapDataSet>();
 
-    private String tokenizedUrl = "http://138.68.151.94/clean/%s&%s/2010&25&10000";
+    private String tokenizedUrl = "http://138.68.151.94/clean/%s&%s/2015&2&100";
 
     private LocationManager locationManager;
 
@@ -88,6 +88,12 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
     @Override
     protected void start() {
         try {
+
+            //####
+//            Dialog dialog = new Dialog(MapsActivity.this,
+//                    android.R.style.Theme_Translucent_NoTitleBar);
+//            dialog.setContentView(R.layout.progress);
+//            dialog.show();
 
             //####
             final DefaultEvent<EventArgs> myEvent = new DefaultEvent<EventArgs>();
@@ -109,12 +115,11 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
 
 
             if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, android.os.Process.myPid(), android.os.Process.myUid()) == getPackageManager().PERMISSION_GRANTED) {
-                GoogleMap themap = getMap();
+                // Getting LocationManager object from System Service LOCATION_SERVICE
+                this.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
                 getMap().setMyLocationEnabled(true);
 
-                // Getting LocationManager object from System Service LOCATION_SERVICE
-                this.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
                 // Creating a criteria object to retrieve provider
                 Criteria criteria = new Criteria();
@@ -125,7 +130,9 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
                 // Getting Current Location
                 Location location = locationManager.getLastKnownLocation(provider);
 
-                getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 10));
+                if(location != null) {
+                    getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
+                }
 
 
             }
@@ -139,7 +146,8 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
         }
     }
 
-    public void changeRadius(View view) {
+
+    public void changeYear(View view) {
         if (mDefaultRadius) {
             mProvider.setRadius(ALT_HEATMAP_RADIUS);
         } else {
@@ -150,13 +158,14 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
     }
 
     public void changeGradient(View view) {
-        if (mDefaultGradient) {
-            mProvider.setGradient(ALT_HEATMAP_GRADIENT);
-        } else {
-            mProvider.setGradient(HeatmapTileProvider.DEFAULT_GRADIENT);
-        }
-        mOverlay.clearTileCache();
-        mDefaultGradient = !mDefaultGradient;
+        //####
+//        if (mDefaultGradient) {
+//            mProvider.setGradient(ALT_HEATMAP_GRADIENT);
+//        } else {
+//            mProvider.setGradient(HeatmapTileProvider.DEFAULT_GRADIENT);
+//        }
+//        mOverlay.clearTileCache();
+//        mDefaultGradient = !mDefaultGradient;
     }
 
     public void changeOpacity(View view) {
