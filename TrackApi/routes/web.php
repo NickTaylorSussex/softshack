@@ -27,6 +27,9 @@ $app->get('/{androidId}/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{para
     * sin( radians( latitude ) ) ) ) AS distance FROM ($destinationTable)
     HAVING distance < ($paramRadious) ORDER BY distance LIMIT 0, $paramLimit");
 
+    $ldate = date('Y-m-d H:i:s');
+    DB::insert('INSERT INTO request_log (androidId, requestLatitude, requestLongitude, requestTime) values (?, ?, ?, ?)', [$androidId, $paramLatitude, $paramLongitude, $ldate]);
+
     $mapGrid = false;
     $mapData = false;
     $radius = 0.001; //grid size is multiplied by 2.8 to convert from the heat map radius to lat/long values(works for my lat/long, maybe not yours). * 0.3 is arbitrary to avoid seeing the grid on the map.
