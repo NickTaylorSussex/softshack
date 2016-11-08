@@ -10,6 +10,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,21 +39,7 @@ import java.util.Scanner;
 
 public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCameraIdleListener {
 
-    private boolean mDefaultGradient = true;
-    private boolean mDefaultRadius = true;
-    private boolean mDefaultOpacity = true;
-
-    /**
-     * Alternative radius for convolution
-     */
-    private static final int ALT_HEATMAP_RADIUS = 10;
-
-    /**
-     * Alternative opacity of heatmap overlay
-     */
-    private static final double ALT_HEATMAP_OPACITY = 0.4;
-
-    /**
+        /**
      * Alternative heatmap gradient (blue -> red)
      * Copied from Javascript version
      */
@@ -79,11 +67,13 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
      */
     private HashMap<String, MapDataSet> mLists = new HashMap<String, MapDataSet>();
 
-    private String tokenizedUrl = "http://138.68.151.94/clean/%s&%s/2015&2&100";
+    private String tokenizedUrl = "http://138.68.151.94/clean/%s&%s/%s&2&100";
 
     private LocationManager locationManager;
 
     private AsyncTask downloadMapDataTask;
+
+    private String newYear="2015";
 
     @Override
     protected void start() {
@@ -109,10 +99,6 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
 
             //####
             getMap().setOnCameraIdleListener(this);
-//            mMap.setOnCameraMoveStartedListener(this);
-//            mMap.setOnCameraMoveListener(this);
-//            mMap.setOnCameraMoveCanceledListener(this);
-
 
             if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, android.os.Process.myPid(), android.os.Process.myUid()) == getPackageManager().PERMISSION_GRANTED) {
                 // Getting LocationManager object from System Service LOCATION_SERVICE
@@ -148,35 +134,35 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
 
 
     public void changeYear(View view) {
-        if (mDefaultRadius) {
-            mProvider.setRadius(ALT_HEATMAP_RADIUS);
-        } else {
-            mProvider.setRadius(HeatmapTileProvider.DEFAULT_RADIUS);
-        }
-        mOverlay.clearTileCache();
-        mDefaultRadius = !mDefaultRadius;
+
+        final Dialog d = new Dialog(MapsActivity.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.dialog_yearpicker);
+        Button b1 = (Button) d.findViewById(R.id.button1);
+        Button b2 = (Button) d.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(2015);
+        np.setMinValue(1995);
+        np.setWrapSelectorWheel(true);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                newYear = String.valueOf(np.getValue());
+                d.dismiss();
+                initiateDataFetch();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
     }
 
-    public void changeGradient(View view) {
-        //####
-//        if (mDefaultGradient) {
-//            mProvider.setGradient(ALT_HEATMAP_GRADIENT);
-//        } else {
-//            mProvider.setGradient(HeatmapTileProvider.DEFAULT_GRADIENT);
-//        }
-//        mOverlay.clearTileCache();
-//        mDefaultGradient = !mDefaultGradient;
-    }
-
-    public void changeOpacity(View view) {
-        if (mDefaultOpacity) {
-            mProvider.setOpacity(ALT_HEATMAP_OPACITY);
-        } else {
-            mProvider.setOpacity(HeatmapTileProvider.DEFAULT_OPACITY);
-        }
-        mOverlay.clearTileCache();
-        mDefaultOpacity = !mDefaultOpacity;
-    }
 
     private ArrayList<WeightedLatLng> readItems(int resource) throws JSONException {
         ArrayList<WeightedLatLng> list = new ArrayList<WeightedLatLng>();
@@ -213,12 +199,15 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
 
     private int changed = 0;
 
-    @Override
-    public void onCameraIdle() {
+    public void initiateDataFetch(){
+        Button b1 = (Button) this.findViewById(R.id.yearButton);
+        newYear = String.valueOf(newYear);
+        b1.setText(newYear);
+
         if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, android.os.Process.myPid(), android.os.Process.myUid()) == getPackageManager().PERMISSION_GRANTED) {
             //####Toast.makeText(this, String.format("position changed: %s",changed++), Toast.LENGTH_LONG).show();
             LatLng currentPosition = getMap().getProjection().getVisibleRegion().latLngBounds.getCenter();
-            String lookupUrl = String.format(tokenizedUrl,currentPosition.latitude,currentPosition.longitude);
+            String lookupUrl = String.format(tokenizedUrl,currentPosition.latitude,currentPosition.longitude,newYear);
             //####new DownloadMapDataTask().execute("https://api.github.com/users/nicktaylorsussex/repos");
 
             if(this.downloadMapDataTask != null && !this.downloadMapDataTask.isCancelled()){
@@ -232,7 +221,11 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
             this.downloadMapDataTask = new DownloadMapDataTask().execute(lookupUrl);
 
         }
+    }
 
+    @Override
+    public void onCameraIdle() {
+        initiateDataFetch();
     }
 
     private class DownloadMapDataTask extends AsyncTask<String,Integer,String> {
@@ -285,25 +278,28 @@ public class MapsActivity extends BaseDemoActivity implements GoogleMap.OnCamera
         protected void onPostExecute(String result) {
 
             try{
-            //####mLists.put(getString(R.string.title_activity_maps), new MapDataSet(readItems(R.raw.brighton),getString(R.string.title_activity_maps)));
-            mLists.put(getString(R.string.title_activity_maps), new MapDataSet(readItems(result),getString(R.string.title_activity_maps)));
+                if(result != null) {
+                    //####mLists.put(getString(R.string.title_activity_maps), new MapDataSet(readItems(R.raw.brighton),getString(R.string.title_activity_maps)));
+                    mLists.put(getString(R.string.title_activity_maps), new MapDataSet(readItems(result), getString(R.string.title_activity_maps)));
 
-        } catch (JSONException e) {
-            //####Toast.makeText(this, "Problem reading list of markers.", Toast.LENGTH_LONG).show();
-        }
+                    mProvider = new HeatmapTileProvider.Builder().weightedData(
+                            mLists.get(getString(R.string.title_activity_maps)).getData()).build();
 
-            mProvider = new HeatmapTileProvider.Builder().weightedData(
-                    mLists.get(getString(R.string.title_activity_maps)).getData()).build();
-
-            mProvider.setRadius(HeatmapTileProvider.DEFAULT_RADIUS);
+                    mProvider.setRadius(HeatmapTileProvider.DEFAULT_RADIUS);
 
 
-            mOverlay = getMap().addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+                    mOverlay = getMap().addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
+                } else {
+                    mLists.clear();
+                }
+            } catch (JSONException e) {
+                //####Toast.makeText(this, "Problem reading list of markers.", Toast.LENGTH_LONG).show();
+
+            }
 
             mOverlay.clearTileCache();
         }
-
-
     }
 }
 
