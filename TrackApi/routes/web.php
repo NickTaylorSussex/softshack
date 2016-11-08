@@ -6,15 +6,17 @@
 /**
 * Listen for a get request, create a query for the processed_clean_properties table based on the Haversine formula.
 *
+* @param  string   $androidId       Android device id
 * @param  decimal  $paramLatitude   Latitude coordinate
 * @param  decimal  $paramLongitude  Longitude coordinate
 * @param  int      $paramYear       Year of sale
 * @param  int      $paramRadious    Radious used by the Haversine formul
 * @param  int      $paramLimit      Limit for the number of results returned
+* @param  int      $paramZoom       Map zoom level
 *
 * @return array   $results  Results of the SQL query
 */
-$app->get('/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}', function ($paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit) use ($app) {
+$app->get('/{androidId}/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{paramLimit}&{paramZoom}', function ($androidId, $paramLatitude, $paramLongitude, $paramYear, $paramRadious, $paramLimit, $paramZoom) use ($app) {
 
     //Create the destination table variable that will be passed to the query based on the paramYear passed.
     $destinationTable = "processed_clean_" . strval($paramYear) . "_properties";
@@ -52,7 +54,7 @@ $app->get('/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{paramRadious}&{p
     }
 
     return $mapData;
-    
+
 });
 
 //TODO: Delete for production.
