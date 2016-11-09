@@ -49,28 +49,10 @@ public abstract class BaseDemoActivity extends FragmentActivity implements OnMap
             return;
         }
         mMap = map;
-
-        ITrackMap trackMap = new GoogleMapAdapter(map);
-
-        MapsActivityModel mapsActivityModel = new MapsActivityModel();
-
-        IMapsActivityView mapsActivityView = new MapsActivityView(mapsActivityModel,trackMap);
-
-        MapsActivityController mapsActivityController  =
-                new MapsActivityController(
-                        mapsActivityView,
-                        mapsActivityModel,
-                        new LocationProvider(new LocationManagerAdapter(
-                                (LocationManager) getSystemService(LOCATION_SERVICE),
-                                new PermissionAdapter(
-                                        getPackageManager(),
-                                        getApplicationContext()))),
-                        new DataProvider(
-                                new TaskFactory(),
-                                new ContextAdapter(getApplicationContext())));
-
-        mapsActivityController.start();
+        this.start();
     }
+
+    public abstract void start();
 
     private void setUpMap() {
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);

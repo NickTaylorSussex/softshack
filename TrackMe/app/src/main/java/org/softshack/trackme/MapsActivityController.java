@@ -24,10 +24,17 @@ public class MapsActivityController {
         this.mapsActivityModel.setAllowUserToCentreMap(true);
         this.mapsActivityModel.setYear("2015");
 
-        this.mapsActivityView.getOnMapIdle().addHandler(new EventHandler<EventArgs>() {
+        this.mapsActivityView.getOnDataStale().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
-                handleMapIdle();
+                handleStaleData();
+            }
+        });
+
+        this.mapsActivityView.getOnChangeYearRequested().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleChangeYearRequested();
             }
         });
 
@@ -46,7 +53,7 @@ public class MapsActivityController {
         });
     }
 
-    public void handleMapIdle(){
+    public void handleStaleData(){
 
         // Request map centre.
         this.mapsActivityView.getMapCentre();
@@ -58,7 +65,7 @@ public class MapsActivityController {
                 this.mapsActivityModel.getCurrentLongitude(),
                 this.mapsActivityModel.getYear());
 
-                // Cancel existing async data request
+        // Cancel existing async data request
         this.dataProvider.cancelLastRequest();
 
         // Clear last overlay from map.
@@ -100,5 +107,9 @@ public class MapsActivityController {
         } catch (JSONException e) {
             this.mapsActivityView.clearMap();
         }
+    }
+
+    public void handleChangeYearRequested() {
+        this.mapsActivityView.updateYear();
     }
 }

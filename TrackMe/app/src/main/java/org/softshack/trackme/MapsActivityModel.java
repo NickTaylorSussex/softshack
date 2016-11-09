@@ -7,7 +7,7 @@ public class MapsActivityModel {
     private Boolean allowUserToCentreMap;
     private double currentLatitude;
     private double currentLongitude;
-    private String tokenizedUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&100&15";
+    private String tokenizedUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&15";
 
     private HashMap<String, MapDataSet> positions = new HashMap<>();
     private String positionsKey;

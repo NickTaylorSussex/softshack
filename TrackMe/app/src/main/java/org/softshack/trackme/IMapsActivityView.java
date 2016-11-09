@@ -7,7 +7,9 @@ import org.softshack.utils.obs.EventArgs;
 public interface IMapsActivityView  {
     void initialize();
 
-    DefaultEvent<EventArgs> getOnMapIdle();
+    DefaultEvent<EventArgs> getOnDataStale();
+
+    DefaultEvent<EventArgs> getOnChangeYearRequested();
 
     void setMapPositionCurrent();
 
@@ -16,4 +18,6 @@ public interface IMapsActivityView  {
     void clearMap();
 
     void buildHeatMap();
+
+    void updateYear();
 }
