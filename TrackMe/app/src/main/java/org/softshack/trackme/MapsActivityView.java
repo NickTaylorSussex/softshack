@@ -1,5 +1,9 @@
 package org.softshack.trackme;
 
+import org.softshack.trackme.interfaces.IButton;
+import org.softshack.trackme.interfaces.IDialog;
+import org.softshack.trackme.interfaces.IMapsActivityView;
+import org.softshack.trackme.interfaces.ITrackMap;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;

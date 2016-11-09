@@ -1,6 +1,8 @@
-package org.softshack.trackme;
+package org.softshack.trackme.adapters;
 
 import android.content.Context;
+
+import org.softshack.trackme.interfaces.IContext;
 
 public class ContextAdapter implements IContext {
 

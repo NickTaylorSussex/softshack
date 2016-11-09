@@ -1,10 +1,12 @@
 package org.softshack.trackme;
 
+import org.softshack.trackme.interfaces.ILocationManager;
+import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 
 
-public class LocationProvider implements ILocationProvider{
+public class LocationProvider implements ILocationProvider {
     private final DefaultEvent<EventArgs> onLocationFound = new DefaultEvent<EventArgs>();
     private ILocationManager locationManager;
     private TrackLocation trackLocation;
@@ -29,7 +31,7 @@ public class LocationProvider implements ILocationProvider{
         return trackLocation;
     }
 
-    public void setTrackLocation(TrackLocation trackLocation) {
+    private void setTrackLocation(TrackLocation trackLocation) {
         this.trackLocation = trackLocation;
     }
 }

@@ -1,4 +1,4 @@
-package org.softshack.trackme;
+package org.softshack.trackme.interfaces;
 
 public interface IPermissionManager {
     Boolean PermissionFineLocationAllowed();

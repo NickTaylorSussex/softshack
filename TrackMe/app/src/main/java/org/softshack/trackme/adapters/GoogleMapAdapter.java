@@ -1,4 +1,4 @@
-package org.softshack.trackme;
+package org.softshack.trackme.adapters;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -7,6 +7,9 @@ import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
+import org.softshack.trackme.MapDataSet;
+import org.softshack.trackme.TrackLocation;
+import org.softshack.trackme.interfaces.ITrackMap;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 

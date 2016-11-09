@@ -1,7 +1,9 @@
-package org.softshack.trackme;
+package org.softshack.trackme.adapters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+
+import org.softshack.trackme.interfaces.IPermissionManager;
 
 public class PermissionAdapter implements IPermissionManager {
     private PackageManager packageManager;

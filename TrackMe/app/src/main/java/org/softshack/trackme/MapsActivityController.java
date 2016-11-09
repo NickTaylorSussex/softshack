@@ -1,6 +1,9 @@
 package org.softshack.trackme;
 
 import org.json.JSONException;
+import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.interfaces.ILocationProvider;
+import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
 

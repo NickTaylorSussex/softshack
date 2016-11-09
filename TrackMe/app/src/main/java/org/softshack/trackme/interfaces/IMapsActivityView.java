@@ -1,4 +1,4 @@
-package org.softshack.trackme;
+package org.softshack.trackme.interfaces;
 
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;

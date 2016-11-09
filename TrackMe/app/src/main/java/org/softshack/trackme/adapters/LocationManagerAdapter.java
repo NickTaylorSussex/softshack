@@ -1,10 +1,14 @@
-package org.softshack.trackme;
+package org.softshack.trackme.adapters;
 
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 
-public class LocationManagerAdapter implements ILocationManager{
+import org.softshack.trackme.TrackLocation;
+import org.softshack.trackme.interfaces.ILocationManager;
+import org.softshack.trackme.interfaces.IPermissionManager;
+
+public class LocationManagerAdapter implements ILocationManager {
 
     LocationManager locationManager;
     IPermissionManager permissionManager;

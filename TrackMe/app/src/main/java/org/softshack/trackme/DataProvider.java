@@ -6,6 +6,9 @@ import com.google.maps.android.heatmaps.WeightedLatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.softshack.trackme.interfaces.IContext;
+import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.interfaces.ITaskFactory;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
@@ -41,7 +44,7 @@ public class DataProvider implements IDataProvider {
 
     @Override
     public void requestData(String lookupUrl){
-        final DataTask task = this.taskFactory.createMapDataTask();
+        task = this.taskFactory.createMapDataTask();
 
         task.getOnTaskFinished().addHandler(new EventHandler<EventArgs>() {
                                                 @Override

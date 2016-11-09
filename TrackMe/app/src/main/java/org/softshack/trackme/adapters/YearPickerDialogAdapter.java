@@ -1,10 +1,12 @@
-package org.softshack.trackme;
+package org.softshack.trackme.adapters;
 
 import android.app.Dialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
+import org.softshack.trackme.R;
+import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 

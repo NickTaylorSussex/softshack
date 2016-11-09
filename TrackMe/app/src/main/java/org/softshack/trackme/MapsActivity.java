@@ -4,6 +4,16 @@ import android.app.Dialog;
 import android.location.LocationManager;
 import android.widget.Button;
 
+import org.softshack.trackme.adapters.ButtonAdapter;
+import org.softshack.trackme.adapters.ContextAdapter;
+import org.softshack.trackme.adapters.GoogleMapAdapter;
+import org.softshack.trackme.adapters.LocationManagerAdapter;
+import org.softshack.trackme.adapters.PermissionAdapter;
+import org.softshack.trackme.adapters.YearPickerDialogAdapter;
+import org.softshack.trackme.interfaces.IButton;
+import org.softshack.trackme.interfaces.IMapsActivityView;
+import org.softshack.trackme.interfaces.ITrackMap;
+
 public class MapsActivity extends BaseDemoActivity {
 
     @Override
