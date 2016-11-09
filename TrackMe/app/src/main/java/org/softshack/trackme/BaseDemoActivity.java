@@ -16,6 +16,7 @@
 
 package org.softshack.trackme;
 
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,17 +49,32 @@ public abstract class BaseDemoActivity extends FragmentActivity implements OnMap
             return;
         }
         mMap = map;
-        start();
+
+        ITrackMap trackMap = new GoogleMapAdapter(map);
+
+        MapsActivityModel mapsActivityModel = new MapsActivityModel();
+
+        IMapsActivityView mapsActivityView = new MapsActivityView(mapsActivityModel,trackMap);
+
+        MapsActivityController mapsActivityController  =
+                new MapsActivityController(
+                        mapsActivityView,
+                        mapsActivityModel,
+                        new LocationProvider(new LocationManagerAdapter(
+                                (LocationManager) getSystemService(LOCATION_SERVICE),
+                                new PermissionAdapter(
+                                        getPackageManager(),
+                                        getApplicationContext()))),
+                        new DataProvider(
+                                new TaskFactory(),
+                                new ContextAdapter(getApplicationContext())));
+
+        mapsActivityController.start();
     }
 
     private void setUpMap() {
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
     }
-
-    /**
-     * Run the demo-specific code.
-     */
-    protected abstract void start();
 
     protected GoogleMap getMap() {
         return mMap;
