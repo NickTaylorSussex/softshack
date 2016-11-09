@@ -12,6 +12,7 @@ import org.softshack.trackme.interfaces.ITaskFactory;
 
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestMethodCalls {
     DataProvider dataProvider;
@@ -22,8 +23,9 @@ public class TestMethodCalls {
 
     @Before
     public void setup(){
+
 //        when(mockTaskFactory.createMapDataTask())
-//                .thenReturn(mockTask);
+//               .thenReturn(mockTask);
 
         this.dataProvider = new DataProvider(mockTaskFactory, new FakeContext());
     }

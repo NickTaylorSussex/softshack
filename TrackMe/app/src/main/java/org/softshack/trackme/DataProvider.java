@@ -16,6 +16,9 @@ import org.softshack.utils.obs.EventHandler;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class handles task management for data requests.
+ */
 public class DataProvider implements IDataProvider {
 
     private final DefaultEvent<EventArgs> onDataChanged = new DefaultEvent<EventArgs>();
@@ -25,6 +28,11 @@ public class DataProvider implements IDataProvider {
     private IContext context;
     private String data;
 
+    /**
+     * Constructor.
+     * @param taskFactory A factory for creating async data tasks.
+     * @param context Application context
+     */
     public DataProvider(ITaskFactory taskFactory, IContext context){
         this.taskFactory = taskFactory;
         this.context = context;
