@@ -16,20 +16,30 @@ import org.softshack.trackme.interfaces.ITrackMap;
 
 public class MapsActivity extends BaseDemoActivity {
 
+    /**
+     * Starts the main app.
+     */
     @Override
     public void start() {
+        // Adapt a google map to an abstraction to be used in the application.
         ITrackMap trackMap = new GoogleMapAdapter(getMap());
 
+        // Create a data model.
         MapsActivityModel mapsActivityModel = new MapsActivityModel();
 
+        // Adapt a button to an abstraction to be used in the application.
         IButton yearButton = new ButtonAdapter((Button)this.findViewById(R.id.yearButton));
 
-        IMapsActivityView mapsActivityView = new MapsActivityView(
+        // Create a view which is an abstraction of the user interface.
+        ViewComponents viewComponents = new ViewComponents(
                 mapsActivityModel,
                 trackMap,
                 yearButton,
                 new YearPickerDialogAdapter(new Dialog(MapsActivity.this)));
 
+        IMapsActivityView mapsActivityView = new MapsActivityView(viewComponents);
+
+        // Create a controller to manage the data requests and command the user interface.
         MapsActivityController mapsActivityController =
                 new MapsActivityController(
                         mapsActivityView,
@@ -41,8 +51,10 @@ public class MapsActivity extends BaseDemoActivity {
                                         getApplicationContext()))),
                         new DataProvider(
                                 new TaskFactory(),
-                                new ContextAdapter(getApplicationContext())));
+                                new ContextAdapter(getApplicationContext()),
+                                new DataSetMapperFactory()));
 
+        // Initiate the controller.
         mapsActivityController.start();
     }
 }

@@ -9,7 +9,7 @@ public class MapsActivityModel {
     private double currentLongitude;
     private String tokenizedUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&15";
 
-    private HashMap<String, MapDataSet> positions = new HashMap<>();
+    private HashMap<String, DataSetMapper> positions = new HashMap<>();
     private String positionsKey;
 
     public String getYear() {
@@ -52,7 +52,7 @@ public class MapsActivityModel {
      * Maps name of data set to data (list of LatLngs)
      * Also activity_maps to the URL of the data set for attribution
      */
-    public HashMap<String, MapDataSet> getPositions() {
+    public HashMap<String, DataSetMapper> getPositions() {
         return positions;
     }
 

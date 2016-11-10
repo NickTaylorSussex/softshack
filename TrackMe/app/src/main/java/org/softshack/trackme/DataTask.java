@@ -2,6 +2,7 @@ package org.softshack.trackme;
 
 import android.os.AsyncTask;
 
+import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 
@@ -13,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DataTask extends AsyncTask<String,Integer,String> {
+public class DataTask extends AsyncTask<String,Integer,String> implements IDataTask {
     private final DefaultEvent<EventArgs> onTaskFinished = new DefaultEvent<EventArgs>();
     private String result;
 
@@ -66,15 +67,30 @@ public class DataTask extends AsyncTask<String,Integer,String> {
         this.getOnTaskFinished().fire(this, EventArgs.Empty); //#### remember to replace all new event args with eventargs.empty.
     }
 
+    @Override
     public DefaultEvent<EventArgs> getOnTaskFinished() {
         return onTaskFinished;
     }
 
+    @Override
     public String getResult() {
         return result;
     }
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    @Override
+    public void cancel(Boolean mayInterruptIfRunning){
+        super.cancel(mayInterruptIfRunning);
+    }
+
+    public Boolean isAlreadyCancelled() {
+        return super.isCancelled();
+    }
+
+    public void execute(String param) {
+        super.execute(param);
     }
 }

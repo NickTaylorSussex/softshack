@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.softshack.trackme.interfaces.IContext;
 import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.trackme.interfaces.ITaskFactory;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
@@ -23,9 +24,10 @@ public class DataProvider implements IDataProvider {
 
     private final DefaultEvent<EventArgs> onDataChanged = new DefaultEvent<EventArgs>();
 
-    private DataTask task;
+    private IDataTask task;
     private ITaskFactory taskFactory;
     private IContext context;
+    private DataSetMapperFactory dataSetMapperFactory;
     private String data;
 
     /**
@@ -33,14 +35,18 @@ public class DataProvider implements IDataProvider {
      * @param taskFactory A factory for creating async data tasks.
      * @param context Application context
      */
-    public DataProvider(ITaskFactory taskFactory, IContext context){
+    public DataProvider(
+            ITaskFactory taskFactory,
+            IContext context,
+            DataSetMapperFactory dataSetMapperFactory){
         this.taskFactory = taskFactory;
         this.context = context;
+        this.dataSetMapperFactory = dataSetMapperFactory;
     }
 
     @Override
     public void cancelLastRequest(){
-        if(this.task != null && !this.task.isCancelled()){
+        if(this.task != null && !this.task.isAlreadyCancelled()){
             this.task.cancel(true);
         }
     }
@@ -50,6 +56,10 @@ public class DataProvider implements IDataProvider {
         return onDataChanged;
     }
 
+    /**
+     * Makes an async data request and notifies of completion.
+     * @param lookupUrl A remote address to use as the basis of the request.
+     */
     @Override
     public void requestData(String lookupUrl){
         task = this.taskFactory.createMapDataTask();
@@ -78,9 +88,10 @@ public class DataProvider implements IDataProvider {
     }
 
     @Override
-    public MapDataSet convertData() throws JSONException{
+    public DataSetMapper convertData() throws JSONException{
         if(this.data != null) {
-            return new MapDataSet(this.readItems(this.data), this.getMapDataSetName());
+            return this.dataSetMapperFactory.createDataSetMapper(
+                    this.readItems(this.data), this.getMapDataSetName());
         }
 
         return null;

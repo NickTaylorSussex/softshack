@@ -2,7 +2,7 @@ package org.softshack.trackme.interfaces;
 
 
 import org.json.JSONException;
-import org.softshack.trackme.MapDataSet;
+import org.softshack.trackme.DataSetMapper;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 
@@ -15,7 +15,7 @@ public interface IDataProvider {
 
     String getData();
 
-    MapDataSet convertData() throws JSONException;
+    DataSetMapper convertData() throws JSONException;
 
     String getMapDataSetName();
 }
