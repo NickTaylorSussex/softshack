@@ -10,11 +10,12 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/yearButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="2015"
-            android:onClick="changeYear" />
+            android:onClick="onChangeYear" />
 
 
 

@@ -16,6 +16,7 @@
 
 package org.softshack.trackme;
 
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,17 +49,14 @@ public abstract class BaseDemoActivity extends FragmentActivity implements OnMap
             return;
         }
         mMap = map;
-        start();
+        this.start();
     }
+
+    public abstract void start();
 
     private void setUpMap() {
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
     }
-
-    /**
-     * Run the demo-specific code.
-     */
-    protected abstract void start();
 
     protected GoogleMap getMap() {
         return mMap;
