@@ -28,8 +28,11 @@ public class DataTask extends AsyncTask<String,Integer,String> implements IDataT
      */
     @Override
     protected String doInBackground(String... urls) {
-        assert (urls != null);
-        assert (urls.length > 0);
+        // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
+        if (BuildConfig.DEBUG) {
+            if (urls == null) throw new AssertionError();
+            if (urls.length <= 0) throw new AssertionError();
+        }
 
         String data = null;
 

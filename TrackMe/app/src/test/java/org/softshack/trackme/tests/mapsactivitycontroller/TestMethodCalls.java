@@ -20,6 +20,8 @@ import org.softshack.utils.obs.EventHandler;
 import java.util.HashMap;
 import java.util.Random;
 
+import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -135,6 +137,60 @@ public class TestMethodCalls {
         verify(this.mockDataProvider, times(1)).requestData(randomLatitude + "|" + randomLongitude + "|" + "2016");
     }
 
+    @Test(expected=AssertionError.class)
+    public void testHandleStaleDataInvalidLatitude() throws Exception {
+        // Arrange
+        double invalidLatitude = 1111111111;
+        double randomLongitude = this.randomLongitude();
+
+        when(mockMapsActivityModel.getCurrentLatitude()).thenReturn(invalidLatitude);
+        when(mockMapsActivityModel.getCurrentLongitude()).thenReturn(randomLongitude );
+
+        // Act
+        this.mapsActivityController.handleStaleData();
+
+        // Assert
+        verify(this.mockMapsActivityView, times(0)).getMapCentre();
+
+        verify(this.mockMapsActivityModel, times(0)).getTokenizedUrl();
+        verify(this.mockMapsActivityModel, times(0)).getCurrentLatitude();
+        verify(this.mockMapsActivityModel, times(0)).getCurrentLongitude();
+        verify(this.mockMapsActivityModel, times(0)).getYear();
+
+        verify(this.mockDataProvider, times(0)).cancelLastRequest();
+
+        verify(this.mockMapsActivityView, times(0)).clearMap();
+
+        verify(this.mockDataProvider, times(0)).requestData(anyString());
+    }
+
+    @Test(expected=AssertionError.class)
+    public void testHandleStaleDataInvalidLongitude() throws Exception {
+        // Arrange
+        double randomLatitude = this.randomLatitude();
+        double invalidLongitude = 999999999;
+
+        when(mockMapsActivityModel.getCurrentLatitude()).thenReturn(randomLatitude);
+        when(mockMapsActivityModel.getCurrentLongitude()).thenReturn(invalidLongitude );
+
+        // Act
+        this.mapsActivityController.handleStaleData();
+
+        // Assert
+        verify(this.mockMapsActivityView, times(0)).getMapCentre();
+
+        verify(this.mockMapsActivityModel, times(0)).getTokenizedUrl();
+        verify(this.mockMapsActivityModel, times(0)).getCurrentLatitude();
+        verify(this.mockMapsActivityModel, times(0)).getCurrentLongitude();
+        verify(this.mockMapsActivityModel, times(0)).getYear();
+
+        verify(this.mockDataProvider, times(0)).cancelLastRequest();
+
+        verify(this.mockMapsActivityView, times(0)).clearMap();
+
+        verify(this.mockDataProvider, times(0)).requestData(anyString());
+    }
+
     @Test
     public void testHandleLocationFound() throws Exception {
         // Arrange
@@ -152,6 +208,44 @@ public class TestMethodCalls {
         verify(this.mockMapsActivityModel, times(1)).setCurrentLongitude(randomLongitude);
 
         verify(this.mockMapsActivityView, times(1)).setMapPositionCurrent();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testHandleLocationFoundInvalidLatitude() throws Exception {
+        // Arrange
+        double invalidLatitude = 222222222;
+        double randomLongitude = this.randomLongitude();
+
+        when(mockLocationProvider.getTrackLocation()).thenReturn(new TrackLocation(invalidLatitude,randomLongitude));
+
+        // Act
+        this.mapsActivityController.handleLocationFound();
+
+        // Assert
+
+        verify(this.mockMapsActivityModel, times(0)).setCurrentLatitude(anyDouble());
+        verify(this.mockMapsActivityModel, times(0)).setCurrentLongitude(anyDouble());
+
+        verify(this.mockMapsActivityView, times(0)).setMapPositionCurrent();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testHandleLocationFoundInvalidLongitude() throws Exception {
+        // Arrange
+        double randomLatitude = this.randomLatitude();
+        double invalidLongitude = 222222222;
+
+        when(mockLocationProvider.getTrackLocation()).thenReturn(new TrackLocation(randomLatitude,invalidLongitude));
+
+        // Act
+        this.mapsActivityController.handleLocationFound();
+
+        // Assert
+
+        verify(this.mockMapsActivityModel, times(0)).setCurrentLatitude(anyDouble());
+        verify(this.mockMapsActivityModel, times(0)).setCurrentLongitude(anyDouble());
+
+        verify(this.mockMapsActivityView, times(0)).setMapPositionCurrent();
     }
 
     @Test

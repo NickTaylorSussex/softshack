@@ -82,8 +82,11 @@ public class MapsActivityController {
         double latitude = this.mapsActivityModel.getCurrentLatitude();
         double longitude = this.mapsActivityModel.getCurrentLongitude();
 
-        assert(latitude >= -90 && latitude <=90);
-        assert(longitude >= -180 && longitude <=180);
+        // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
+        if (BuildConfig.DEBUG) {
+            if (!(latitude >= -90 && latitude <= 90)) throw new AssertionError();
+            if (!(longitude >= -180 && longitude <= 180)) throw new AssertionError();
+        }
 
         // Build URL
         String lookupUrl = String.format(
@@ -112,8 +115,11 @@ public class MapsActivityController {
         double latitude = currentLocation.getLatitude();
         double longitude = currentLocation.getLongitude();;
 
-        assert(latitude >= -90 && latitude <=90);
-        assert(longitude >= -180 && longitude <=180);
+        // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
+        if (BuildConfig.DEBUG) {
+            if (!(latitude >= -90 && latitude <= 90)) throw new AssertionError();
+            if (!(longitude >= -180 && longitude <= 180)) throw new AssertionError();
+        }
 
         // Store the new values.
         this.mapsActivityModel.setCurrentLatitude(latitude);

@@ -1,5 +1,8 @@
 package org.softshack.trackme;
 
+/**
+ * POCO for location.
+ */
 public class TrackLocation {
     private double latitude;
     private double longitude;
