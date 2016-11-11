@@ -6,10 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softshack.trackme.DataProvider;
 import org.softshack.trackme.DataSetMapper;
 import org.softshack.trackme.DataSetMapperFactory;
+import org.softshack.trackme.JSONFactory;
 import org.softshack.trackme.fakes.FakeContext;
 import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.trackme.interfaces.ITaskFactory;
@@ -19,12 +21,8 @@ import org.softshack.utils.obs.EventArgs;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollectionOf;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anySetOf;
+
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,27 +47,32 @@ public class TestMethodCalls {
     DataSetMapperFactory mockDataSetMapperFactory;
 
     @Mock
-    ArrayList<WeightedLatLng> mockData;
+    JSONFactory mockJSONFactory;
 
-    String fakeRawData = "rawData";
+    String fakeRawData = "[{\"latitude\":50.841,\"longitude\":-0.12068468468468,\"avgYearPostcodeNorm\":20}]";
+    ArrayList<WeightedLatLng> weightedArray = new ArrayList<WeightedLatLng>();
 
     @Before
     public void setup(){
-        this.dataProvider = new DataProvider(mockTaskFactory, new FakeContext(), mockDataSetMapperFactory);
+        this.dataProvider = new DataProvider(
+                mockTaskFactory,
+                new FakeContext(),
+                mockDataSetMapperFactory,
+                mockJSONFactory);
     }
 
     @Test
-    public void testConvertData() throws Exception {
+    public void testConvertDataNullWhenNoData() throws Exception {
         // Arrange
-        when(mockDataSetMapperFactory.createDataSetMapper(mockData, fakeRawData)).thenReturn(mockDataSetMapper);
-
-        this.dataProvider.setData(fakeRawData);
+        this.dataProvider.setData(null);
 
         // Act
         DataSetMapper dataSetMapper = this.dataProvider.convertData();
 
         // Assert
-        verify(this.mockDataSetMapperFactory, times(1)).createDataSetMapper(mockData, anyString());
+        verify(this.mockJSONFactory, times(0)).readItems(anyString());
+        verify(this.mockDataSetMapperFactory, times(0)).createDataSetMapper(Mockito.<ArrayList<WeightedLatLng>>any(), anyString());
+        assertNull(dataSetMapper);
     }
 
     @Test
@@ -79,7 +82,11 @@ public class TestMethodCalls {
 
         when(mockTaskFactory.createMapDataTask()).thenReturn(mockTask);
 
-        this.dataProvider = new DataProvider(mockTaskFactory, new FakeContext(), mockDataSetMapperFactory);
+        this.dataProvider = new DataProvider(
+                mockTaskFactory,
+                new FakeContext(),
+                mockDataSetMapperFactory,
+                mockJSONFactory);
 
         // Act
         this.dataProvider.requestData("Some request");

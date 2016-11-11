@@ -2,6 +2,9 @@ package org.softshack.trackme;
 
 import java.util.HashMap;
 
+/**
+ * This is the data used by the application.
+ */
 public class MapsActivityModel {
     private String year;
     private Boolean allowUserToCentreMap;

@@ -37,7 +37,7 @@ public class LocationProvider implements ILocationProvider {
     @Override
     public void requestCurrentLocation(){
         this.setTrackLocation(locationManager.requestCurrentLocation());
-        this.onLocationFound.fire(this, new EventArgs());
+        this.onLocationFound.fire(this, EventArgs.Empty);
     }
 
     /**

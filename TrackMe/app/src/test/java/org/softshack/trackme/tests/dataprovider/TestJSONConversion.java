@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.softshack.trackme.DataProvider;
 import org.softshack.trackme.DataSetMapper;
 import org.softshack.trackme.DataSetMapperFactory;
+import org.softshack.trackme.JSONFactory;
 import org.softshack.trackme.fakes.FakeContext;
 import org.softshack.trackme.fakes.FakeTaskFactory;
 
@@ -20,7 +21,10 @@ public class TestJSONConversion {
     @Before
     public void setup(){
         this.dataProvider = new DataProvider(
-                new FakeTaskFactory(), new FakeContext(), new DataSetMapperFactory());
+                new FakeTaskFactory(),
+                new FakeContext(),
+                new DataSetMapperFactory(),
+                new JSONFactory());
     }
 
     @Test

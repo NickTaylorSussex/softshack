@@ -14,12 +14,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * A class performs a threaded task to get the remote data.
+ */
 public class DataTask extends AsyncTask<String,Integer,String> implements IDataTask {
     private final DefaultEvent<EventArgs> onTaskFinished = new DefaultEvent<EventArgs>();
     private String result;
 
+    /**
+     * Gets the remote data
+     * @param urls
+     * @return JSON data
+     */
     @Override
     protected String doInBackground(String... urls) {
+        assert (urls != null);
+        assert (urls.length > 0);
+
         String data = null;
 
         try {
@@ -41,30 +52,26 @@ public class DataTask extends AsyncTask<String,Integer,String> implements IDataT
                     data = result.toString("UTF-8");
 
                 } catch (Exception e) {
-                     //####
+                     data = "";
                 } finally {
                     urlConnection.disconnect();
                 }
             } catch (IOException e){
-                //####
+                data = "";
             }
         }
         catch(MalformedURLException e){
-            //####
+            data = "";
         }
 
         return data;
     }
 
-    @Override
-    protected void onCancelled(){
-        // Do nothing.
-    }
 
     @Override
     protected void onPostExecute(String result) {
         this.setResult(result);
-        this.getOnTaskFinished().fire(this, EventArgs.Empty); //#### remember to replace all new event args with eventargs.empty.
+        this.getOnTaskFinished().fire(this, EventArgs.Empty);
     }
 
     @Override

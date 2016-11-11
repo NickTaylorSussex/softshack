@@ -79,11 +79,17 @@ public class MapsActivityController {
         // Request map centre.
         this.mapsActivityView.getMapCentre();
 
+        double latitude = this.mapsActivityModel.getCurrentLatitude();
+        double longitude = this.mapsActivityModel.getCurrentLongitude();
+
+        assert(latitude >= -90 && latitude <=90);
+        assert(longitude >= -180 && longitude <=180);
+
         // Build URL
         String lookupUrl = String.format(
                 this.mapsActivityModel.getTokenizedUrl(),
-                this.mapsActivityModel.getCurrentLatitude(),
-                this.mapsActivityModel.getCurrentLongitude(),
+                latitude,
+                longitude,
                 this.mapsActivityModel.getYear());
 
         // Cancel existing async data request
@@ -103,15 +109,19 @@ public class MapsActivityController {
         // Get the location information from the provider that supplies location.
         TrackLocation currentLocation = this.locationProvider.getTrackLocation();
 
-        // Check that the location is a real location.
-        if(currentLocation.getLatitude() != 0 && currentLocation.getLongitude() != 0) {
-            // The location is real, so store the new values.
-            this.mapsActivityModel.setCurrentLatitude(currentLocation.getLatitude());
-            this.mapsActivityModel.setCurrentLongitude(currentLocation.getLongitude());
+        double latitude = currentLocation.getLatitude();
+        double longitude = currentLocation.getLongitude();;
 
-            // Tell the map to move to the new location.
-            this.mapsActivityView.setMapPositionCurrent();
-        }
+        assert(latitude >= -90 && latitude <=90);
+        assert(longitude >= -180 && longitude <=180);
+
+        // Store the new values.
+        this.mapsActivityModel.setCurrentLatitude(latitude);
+        this.mapsActivityModel.setCurrentLongitude(longitude);
+
+        // Tell the map to move to the new location.
+        this.mapsActivityView.setMapPositionCurrent();
+
     }
 
     /**

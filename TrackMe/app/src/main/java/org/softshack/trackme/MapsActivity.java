@@ -3,6 +3,7 @@ package org.softshack.trackme;
 import android.app.Dialog;
 import android.location.LocationManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.softshack.trackme.adapters.ButtonAdapter;
 import org.softshack.trackme.adapters.ContextAdapter;
@@ -52,10 +53,15 @@ public class MapsActivity extends BaseDemoActivity {
                         new DataProvider(
                                 new TaskFactory(),
                                 new ContextAdapter(getApplicationContext()),
-                                new DataSetMapperFactory()));
+                                new DataSetMapperFactory(),
+                                new JSONFactory()));
 
         // Initiate the controller.
-        mapsActivityController.start();
+        try {
+            mapsActivityController.start();
+        } catch (SecurityException e) {
+            Toast.makeText(this, "Security error. Please allow the fine location permissions.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
