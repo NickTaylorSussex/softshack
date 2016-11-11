@@ -23,7 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public abstract class BaseDemoActivity extends FragmentActivity implements OnMapReadyCallback {
+public abstract class BaseActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
 
     protected int getLayoutId() {

@@ -15,7 +15,7 @@ import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.interfaces.ITrackMap;
 
-public class MapsActivity extends BaseDemoActivity {
+public class MapsActivity extends BaseActivity {
 
     /**
      * Starts the main app.
