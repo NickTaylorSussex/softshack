@@ -1,0 +1,39 @@
+<<<<Functional Requirements>>>>
+
+1.The system should check if the location is enabled:
+- if Location is turned off, the user should be redirected to the location service to enable it;
+- only after Location is enabled the System should get current location.
+
+2.A database should be provisioned to store the data:
+- a table should hold the postcode, latitude, longitude, price, and date sold for each property. The data from this table should be pre-processed and stored in another table.
+- the new table should hold a unique postcode per row, the matching latitude and longitude as well as an average price for all the sales at that postcode.
+- the system should normalize the average price per postcode, assigning values between 1 to 100. 
+- appropriate indexes should be created to speed up query times.
+
+3.A backend should be created to listen and respond to requests made by the android application (in a specific format):
+- the backend should provide an API to act as an interface between the android app and the database;
+- once a request is made, the backend should query the database with the parameters passed by the android application;
+- once the query returns a set of results, they should be send to the android application.
+
+4.An android application should be created to visualize (in heatmap format) the price paid data around the user, given the user’s latitude and longitude:
+- the android application should make requests to the backend with the phone’s latitude and longitude values, as well as a radius to be used in calculations by the backend.
+- the android application should receive back a list of results for the given parameters.
+- the android application should pass these results to the google heatmap API in order to display a heatmap.
+
+5.The User should be able to distinguish between low and high price properties on the heatmap, green being used for low prices and red for high prices.
+
+6.If the map is moved, the user should be able to view representations of the price paid data for the new area on the heatmap, the center of the map becoming the focal point for data.
+
+
+<<<<Non-functional requirements>>>>
+
+1.The interface should be easy to use without training
+
+2.The response time should be fast(less than 5 seconds), depending on the Internet connection
+
+3.The app should provide a smooth overall experience with minimal delay when moving the map.
+
+4.The backend should listen for requests, query the database and respond in a timely fashion.
+
+6.The amount of data sent to the android application should be as small as possible, taking into consideration mobile network speed and data limits.
+- data will be stored in cloud. In special circumstances (e.g.the cloud server not working), data will be stored on the local device (insignificant size).
