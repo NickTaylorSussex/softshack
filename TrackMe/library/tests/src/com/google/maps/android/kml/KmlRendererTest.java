@@ -2,10 +2,6 @@ package com.google.maps.android.kml;
 
 import android.test.ActivityTestCase;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class KmlRendererTest extends ActivityTestCase {

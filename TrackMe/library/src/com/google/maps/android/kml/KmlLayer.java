@@ -1,12 +1,12 @@
 package com.google.maps.android.kml;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;

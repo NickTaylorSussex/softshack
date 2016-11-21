@@ -1,14 +1,14 @@
 package com.google.maps.android.geojson;
 
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;

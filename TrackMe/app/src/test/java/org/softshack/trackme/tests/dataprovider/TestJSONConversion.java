@@ -2,9 +2,6 @@ package org.softshack.trackme.tests.dataprovider;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softshack.trackme.DataProvider;
@@ -13,6 +10,8 @@ import org.softshack.trackme.DataSetMapperFactory;
 import org.softshack.trackme.JSONFactory;
 import org.softshack.trackme.fakes.FakeContext;
 import org.softshack.trackme.fakes.FakeTaskFactory;
+
+import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestJSONConversion {

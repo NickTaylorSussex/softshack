@@ -1,7 +1,5 @@
 package org.softshack.trackme.tests.locationprovider;
 
-import android.location.LocationManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

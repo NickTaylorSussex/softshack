@@ -7,7 +7,8 @@ import org.softshack.trackme.TrackLocation;
 import org.softshack.trackme.fakes.FakeLocationManager;
 import org.softshack.trackme.interfaces.ILocationProvider;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestDefaultData {
     ILocationProvider locationProvider;
