@@ -96,7 +96,7 @@ public class DataProvider implements IDataProvider {
      */
     @Override
     public DataSetMapper convertData() throws JSONException{
-        if(this.data != null) {
+        if(this.data != null && !this.data.isEmpty()) {
             ArrayList<WeightedLatLng> array = jsonFactory.readItems(this.data);
 
             return this.dataSetMapperFactory.createDataSetMapper(
