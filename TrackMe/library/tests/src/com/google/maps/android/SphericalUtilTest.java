@@ -17,6 +17,7 @@
 package com.google.maps.android;
 
 import com.google.android.gms.maps.model.LatLng;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

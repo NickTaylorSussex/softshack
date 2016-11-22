@@ -11,9 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.softshack.trackme.DataProvider;
 import org.softshack.trackme.DataSetMapper;
 import org.softshack.trackme.DataSetMapperFactory;
-import org.softshack.trackme.DataTask;
 import org.softshack.trackme.JSONFactory;
-import org.softshack.trackme.TaskFactory;
 import org.softshack.trackme.fakes.FakeContext;
 import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.trackme.interfaces.ITaskFactory;
@@ -23,7 +21,6 @@ import org.softshack.utils.obs.EventArgs;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertNull;
-
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

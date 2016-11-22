@@ -1,8 +1,8 @@
 package com.google.maps.android.geojson;
 
-import junit.framework.TestCase;
-
 import android.graphics.Color;
+
+import junit.framework.TestCase;
 
 import java.util.Arrays;
 
