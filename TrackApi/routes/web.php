@@ -2,6 +2,7 @@
 
 //TODO: Tidy up routes by moving some code to outside functions.
 //TODO: Add zoom level as a parameter to the grid.
+//TODO: Add request type to log.
 
 /**
 * Listen for a get request, create a query for the processed_clean_properties table based on the Haversine formula.
@@ -60,6 +61,35 @@ $app->get('/{androidId}/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{para
     }
 
     return $mapData;
+
+});
+
+/**
+* Listen for a get request, create a query for the graph_properties table based on the Haversine formula.
+*
+* @param  string   $androidId       Android device id
+* @param  decimal  $paramLatitude   Latitude coordinate
+* @param  decimal  $paramLongitude  Longitude coordinate
+* @param  int      $paramRadious    Radious used by the Haversine formula
+* @param  int      $paramLimit      Limit for the number of results returned
+*
+* @return array   $results  Results of the SQL query
+*/
+$app->get('/{androidId}/graph/{paramLatitude}&{paramLongitude}/{paramRadious}&{paramLimit}', function ($androidId, $paramLatitude, $paramLongitude, $paramRadious, $paramLimit) use ($app) {
+
+    //Haversine formula in SQL
+    $results = DB::select("SELECT yearSold, averagePrice, norm, ( 3959 * acos( cos( radians($paramLatitude) )
+    * cos( radians( latitude ) ) * cos( radians( longitude )
+    - radians($paramLongitude) ) + sin( radians($paramLatitude) )
+    * sin( radians( latitude ) ) ) ) AS distance FROM graph_properties
+    HAVING distance < ($paramRadious) ORDER BY distance LIMIT 0, $paramLimit");
+
+    //Get current datetime
+    $ldate = date('Y-m-d H:i:s');
+    //Insert the request into the log table
+    DB::insert('INSERT INTO request_log (androidId, requestLatitude, requestLongitude, requestTime) values (?, ?, ?, ?)', [$androidId, $paramLatitude, $paramLongitude, $ldate]);
+
+    return $results;
 
 });
 
