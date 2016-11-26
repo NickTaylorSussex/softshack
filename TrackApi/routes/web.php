@@ -93,6 +93,10 @@ $app->get('/{androidId}/graph/{paramLatitude}&{paramLongitude}/{paramRadious}&{p
 
 });
 
+$app->get('flask', function () {
+    return 'OK';
+});
+
 /**
 * Listen for a get request, create a query for the processed_dirty_properties table based on the Haversine formula.
 *
