@@ -2,37 +2,36 @@ package org.softshack.trackme.adapters;
 
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 
+import org.softshack.trackme.pocos.LocationManagerComponents;
 import org.softshack.trackme.TrackLocation;
 import org.softshack.trackme.interfaces.ILocationManager;
-import org.softshack.trackme.interfaces.IPermissionManager;
 
 public class LocationManagerAdapter implements ILocationManager {
 
-    LocationManager locationManager;
-    IPermissionManager permissionManager;
+    LocationManagerComponents locationManagerComponents;
 
     public LocationManagerAdapter(
-            LocationManager locationManager,
-            IPermissionManager permissionManager) {
-        this.locationManager = locationManager;
-        this.permissionManager = permissionManager;
+            LocationManagerComponents locationManagerComponents) {
+
+        this.locationManagerComponents = locationManagerComponents;
+
     }
 
     @Override
     public TrackLocation requestCurrentLocation() throws SecurityException{
-        if (this.permissionManager.PermissionFineLocationAllowed()) {
+        if (this.locationManagerComponents.getPermissionManager().PermissionFineLocationAllowed()) {
 
             // Creating a criteria object to retrieve provider
             Criteria criteria = new Criteria();
 
             // Getting the name of the best provider
-            String provider = locationManager.getBestProvider(criteria, true);
+            String provider =
+                    this.locationManagerComponents.getLocationManager().getBestProvider(criteria, true);
 
             // Getting Current TrackLocation
             Location location = null;
-            location = locationManager.getLastKnownLocation(provider);
+            location = this.locationManagerComponents.getLocationManager().getLastKnownLocation(provider);
 
 
             if (location != null) {

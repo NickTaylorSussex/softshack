@@ -4,6 +4,7 @@ import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.interfaces.ITrackMap;
+import org.softshack.trackme.pocos.MapsActivityViewComponents;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
@@ -20,13 +21,13 @@ public class MapsActivityView implements IMapsActivityView {
 
     /**
      * Constructor
-     * @param viewComponents Abstracted view components.
+     * @param mapsActivityViewComponents Abstracted view components.
      */
-    public MapsActivityView(ViewComponents viewComponents){
-        this.setMapsActivityModel(viewComponents.getMapsActivityModel());
-        this.trackMap = viewComponents.getTrackMap();
-        this.setYearButton(viewComponents.getYearButton());
-        this.setYearPicker(viewComponents.getYearPicker());
+    public MapsActivityView(MapsActivityViewComponents mapsActivityViewComponents){
+        this.setMapsActivityModel(mapsActivityViewComponents.getMapsActivityModel());
+        this.trackMap = mapsActivityViewComponents.getTrackMap();
+        this.setYearButton(mapsActivityViewComponents.getYearButton());
+        this.setYearPicker(mapsActivityViewComponents.getYearPicker());
 
         // Set handler for stale data notification and notify listeners.
         this.trackMap.getOnMapIdle().addHandler(new EventHandler<EventArgs>() {

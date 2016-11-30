@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.softshack.trackme.interfaces.IDataProvider;
 import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.trackme.interfaces.IMapsActivityView;
+import org.softshack.trackme.pocos.MapsActivityControllerComponents;
+import org.softshack.utils.log.ILogger;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
 
@@ -11,35 +13,19 @@ import org.softshack.utils.obs.EventHandler;
  * This class manages the data requests and commands the user interface.
  */
 public class MapsActivityController {
-    private IMapsActivityView mapsActivityView;
-    private MapsActivityModel mapsActivityModel;
-    private ILocationProvider locationProvider;
-    private IDataProvider dataProvider;
+    MapsActivityControllerComponents mapsActivityControllerComponents;
 
-    /**
-     * Constructor.
-     * @param mapsActivityView
-     * @param mapsActivityModel
-     * @param locationProvider
-     * @param dataProvider
-     */
     public MapsActivityController(
-            IMapsActivityView mapsActivityView,
-            MapsActivityModel mapsActivityModel,
-            ILocationProvider locationProvider,
-            IDataProvider dataProvider) {
+            MapsActivityControllerComponents mapsActivityControllerComponents) {
 
-        this.mapsActivityView = mapsActivityView;
-        this.mapsActivityModel = mapsActivityModel;
-        this.locationProvider = locationProvider;
-        this.dataProvider = dataProvider;
+        this.mapsActivityControllerComponents = mapsActivityControllerComponents;
 
         // Store the default map values.
-        this.mapsActivityModel.setAllowUserToCentreMap(true);
-        this.mapsActivityModel.setYear("2015");
+        this.mapsActivityControllerComponents.getMapsActivityModel().setAllowUserToCentreMap(true);
+        this.mapsActivityControllerComponents.getMapsActivityModel().setYear("2015");
 
         // Create a listener for stale data.
-        this.mapsActivityView.getOnDataStale().addHandler(new EventHandler<EventArgs>() {
+        this.mapsActivityControllerComponents.getMapsActivityView().getOnDataStale().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
                 handleStaleData();
@@ -47,7 +33,7 @@ public class MapsActivityController {
         });
 
         // Create a listener for when the year is changed.
-        this.mapsActivityView.getOnChangeYearRequested().addHandler(new EventHandler<EventArgs>() {
+        this.mapsActivityControllerComponents.getMapsActivityView().getOnChangeYearRequested().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
                 handleChangeYearRequested();
@@ -55,7 +41,7 @@ public class MapsActivityController {
         });
 
         // Create a listener for when the device's current location is found.
-        this.locationProvider.getOnLocationFound().addHandler(new EventHandler<EventArgs>() {
+        this.mapsActivityControllerComponents.getLocationProvider().getOnLocationFound().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
                 handleLocationFound();
@@ -63,7 +49,7 @@ public class MapsActivityController {
         });
 
         // Create a listener for when the map data has changed.
-        this.dataProvider.getOnDataChanged().addHandler(new EventHandler<EventArgs>() {
+        this.mapsActivityControllerComponents.getDataProvider().getOnDataChanged().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
                 handleDataChanged();
@@ -77,10 +63,10 @@ public class MapsActivityController {
     public void handleStaleData(){
 
         // Request map centre.
-        this.mapsActivityView.getMapCentre();
+        this.mapsActivityControllerComponents.getMapsActivityView().getMapCentre();
 
-        double latitude = this.mapsActivityModel.getCurrentLatitude();
-        double longitude = this.mapsActivityModel.getCurrentLongitude();
+        double latitude = this.mapsActivityControllerComponents.getMapsActivityModel().getCurrentLatitude();
+        double longitude = this.mapsActivityControllerComponents.getMapsActivityModel().getCurrentLongitude();
 
         // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
         if (BuildConfig.DEBUG) {
@@ -90,19 +76,19 @@ public class MapsActivityController {
 
         // Build URL
         String lookupUrl = String.format(
-                this.mapsActivityModel.getTokenizedUrl(),
+                this.mapsActivityControllerComponents.getMapsActivityModel().getTokenizedUrl(),
                 latitude,
                 longitude,
-                this.mapsActivityModel.getYear());
+                this.mapsActivityControllerComponents.getMapsActivityModel().getYear());
 
         // Cancel existing async data request
-        this.dataProvider.cancelLastRequest();
+        this.mapsActivityControllerComponents.getDataProvider().cancelLastRequest();
 
         // Clear last overlay from map.
-        this.mapsActivityView.clearMap();
+        this.mapsActivityControllerComponents.getMapsActivityView().clearMap();
 
         // Launch async data request.
-        this.dataProvider.requestData(lookupUrl);
+        this.mapsActivityControllerComponents.getDataProvider().requestData(lookupUrl);
     }
 
     /**
@@ -110,7 +96,7 @@ public class MapsActivityController {
      */
     public void handleLocationFound(){
         // Get the location information from the provider that supplies location.
-        TrackLocation currentLocation = this.locationProvider.getTrackLocation();
+        TrackLocation currentLocation = this.mapsActivityControllerComponents.getLocationProvider().getTrackLocation();
 
         double latitude = currentLocation.getLatitude();
         double longitude = currentLocation.getLongitude();;
@@ -122,11 +108,11 @@ public class MapsActivityController {
         }
 
         // Store the new values.
-        this.mapsActivityModel.setCurrentLatitude(latitude);
-        this.mapsActivityModel.setCurrentLongitude(longitude);
+        this.mapsActivityControllerComponents.getMapsActivityModel().setCurrentLatitude(latitude);
+        this.mapsActivityControllerComponents.getMapsActivityModel().setCurrentLongitude(longitude);
 
         // Tell the map to move to the new location.
-        this.mapsActivityView.setMapPositionCurrent();
+        this.mapsActivityControllerComponents.getMapsActivityView().setMapPositionCurrent();
 
     }
 
@@ -136,10 +122,10 @@ public class MapsActivityController {
      */
     public void start() throws SecurityException {
         // Command the map to initialise and go to default settings.
-        this.mapsActivityView.initialize();
+        this.mapsActivityControllerComponents.getMapsActivityView().initialize();
 
         // Ask the provider for current location to refresh.
-        this.locationProvider.requestCurrentLocation();
+        this.mapsActivityControllerComponents.getLocationProvider().requestCurrentLocation();
 
     }
 
@@ -149,23 +135,23 @@ public class MapsActivityController {
     public void handleDataChanged() {
         try {
             // Convert the raw data to the form expected by the map.
-            DataSetMapper dataSetMapper = this.dataProvider.convertData();
+            DataSetMapper dataSetMapper = this.mapsActivityControllerComponents.getDataProvider().convertData();
 
             // Check if the raw data could be converted.
             if (dataSetMapper != null) {
                 // The raw data could be converted, so store the converted data.
-                this.mapsActivityModel.setPositionsKey(this.dataProvider.getMapDataSetName());
-                this.mapsActivityModel.getPositions().put(this.dataProvider.getMapDataSetName(), dataSetMapper);
+                this.mapsActivityControllerComponents.getMapsActivityModel().setPositionsKey(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName());
+                this.mapsActivityControllerComponents.getMapsActivityModel().getPositions().put(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName(), dataSetMapper);
 
                 // Command the map to show a heatmap based on the new data.
-                this.mapsActivityView.buildHeatMap();
+                this.mapsActivityControllerComponents.getMapsActivityView().buildHeatMap();
 
             } else {
                 // The raw data could not be converted, so clear the map of existing data.
-                this.mapsActivityView.clearMap();
+                this.mapsActivityControllerComponents.getMapsActivityView().clearMap();
             }
         } catch (JSONException e) {
-            this.mapsActivityView.clearMap();
+            this.mapsActivityControllerComponents.getMapsActivityView().clearMap();
         }
     }
 
@@ -174,6 +160,6 @@ public class MapsActivityController {
      */
     public void handleChangeYearRequested() {
         // Command the user interface to update the year display.
-        this.mapsActivityView.updateYear();
+        this.mapsActivityControllerComponents.getMapsActivityView().updateYear();
     }
 }

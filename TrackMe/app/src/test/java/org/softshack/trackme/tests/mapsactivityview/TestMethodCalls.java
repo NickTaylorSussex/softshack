@@ -9,7 +9,7 @@ import org.softshack.trackme.DataSetMapper;
 import org.softshack.trackme.MapsActivityModel;
 import org.softshack.trackme.MapsActivityView;
 import org.softshack.trackme.TrackLocation;
-import org.softshack.trackme.ViewComponents;
+import org.softshack.trackme.pocos.MapsActivityViewComponents;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.trackme.interfaces.ITrackMap;
@@ -30,7 +30,7 @@ public class TestMethodCalls {
     MapsActivityView mapsActivityView;
 
     @Mock
-    ViewComponents mockViewComponents;
+    MapsActivityViewComponents mockMapsActivityViewComponents;
 
     @Mock
     MapsActivityModel mockMapsActivityModel;
@@ -55,10 +55,10 @@ public class TestMethodCalls {
 
     @Before
     public void setup() throws Exception {
-        when(mockViewComponents.getMapsActivityModel()).thenReturn(mockMapsActivityModel);
-        when(mockViewComponents.getTrackMap()).thenReturn(mockTrackMap);
-        when(mockViewComponents.getYearButton()).thenReturn(mockYearButton);
-        when(mockViewComponents.getYearPicker()).thenReturn(mockYearPicker);
+        when(mockMapsActivityViewComponents.getMapsActivityModel()).thenReturn(mockMapsActivityModel);
+        when(mockMapsActivityViewComponents.getTrackMap()).thenReturn(mockTrackMap);
+        when(mockMapsActivityViewComponents.getYearButton()).thenReturn(mockYearButton);
+        when(mockMapsActivityViewComponents.getYearPicker()).thenReturn(mockYearPicker);
 
         when(mockTrackMap.getOnMapIdle()).thenReturn(mockEvent);
         when(mockYearButton.getOnClicked()).thenReturn(mockEvent);
@@ -68,7 +68,7 @@ public class TestMethodCalls {
     @Test
     public void testInitialize() throws Exception {
         // Arrange
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         // Act
         this.mapsActivityView.initialize();
@@ -84,7 +84,7 @@ public class TestMethodCalls {
         double fakeLatitudeValue = 1.0;
         double fakeLongitudeValue = fakeLatitudeValue * 2;
 
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         when(this.mockMapsActivityModel.getCurrentLatitude()).thenReturn(fakeLatitudeValue);
         when(this.mockMapsActivityModel.getCurrentLongitude()).thenReturn(2.0);
@@ -104,7 +104,7 @@ public class TestMethodCalls {
         double fakeLatitudeValue = 1.0;
         double fakeLongitudeValue = fakeLatitudeValue * 2;
 
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         when(this.mockTrackMap.getMapCentre()).thenReturn(mockTrackLocation);
         when(this.mockTrackLocation.getLatitude()).thenReturn(fakeLatitudeValue);
@@ -124,7 +124,7 @@ public class TestMethodCalls {
     @Test
     public void testClearMap() throws Exception{
         // Arrange
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         // Act
         this.mapsActivityView.clearMap();
@@ -138,7 +138,7 @@ public class TestMethodCalls {
         // Arrange
         String fakeKey = UUID.randomUUID().toString();
 
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         when(this.mockMapsActivityModel.getPositions()).thenReturn(mockPositions);
         when(this.mockMapsActivityModel.getPositionsKey()).thenReturn(fakeKey);
@@ -153,7 +153,7 @@ public class TestMethodCalls {
     @Test
     public void testUpdateYear() throws Exception {
         // Arrange
-        this.mapsActivityView = new MapsActivityView(mockViewComponents);
+        this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         // Act
         this.mapsActivityView.updateYear();

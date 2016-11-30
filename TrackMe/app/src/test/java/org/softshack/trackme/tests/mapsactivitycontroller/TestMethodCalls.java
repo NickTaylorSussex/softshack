@@ -13,6 +13,7 @@ import org.softshack.trackme.TrackLocation;
 import org.softshack.trackme.interfaces.IDataProvider;
 import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.trackme.interfaces.IMapsActivityView;
+import org.softshack.trackme.pocos.MapsActivityControllerComponents;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
@@ -60,6 +61,9 @@ public class TestMethodCalls {
     @Mock
     HashMap<String, DataSetMapper> mockHashMap;
 
+    @Mock
+    MapsActivityControllerComponents mockMapsActivityControllerComponents;
+
     private double randomLatitude(){
         Random r = new Random();
         return (r.nextDouble()-0.5d) * 90;
@@ -72,6 +76,10 @@ public class TestMethodCalls {
 
     @Before
     public void setup() throws Exception {
+        when(mockMapsActivityControllerComponents.getDataProvider()).thenReturn(mockDataProvider);
+        when(mockMapsActivityControllerComponents.getLocationProvider()).thenReturn(mockLocationProvider);
+        when(mockMapsActivityControllerComponents.getMapsActivityView()).thenReturn(mockMapsActivityView);
+        when(mockMapsActivityControllerComponents.getMapsActivityModel()).thenReturn(mockMapsActivityModel);
 
         when(mockMapsActivityView.getOnDataStale()).thenReturn(mockOnDataStaleEvent);
         when(mockMapsActivityView.getOnChangeYearRequested()).thenReturn(mockOnChangeYearRequestedEvent);
@@ -79,10 +87,7 @@ public class TestMethodCalls {
         when(mockDataProvider.getOnDataChanged()).thenReturn(mockOnDataChangedEvent);
 
         this.mapsActivityController = new MapsActivityController(
-                mockMapsActivityView,
-                mockMapsActivityModel,
-                mockLocationProvider,
-                mockDataProvider);
+                mockMapsActivityControllerComponents);
     }
 
     @Test
