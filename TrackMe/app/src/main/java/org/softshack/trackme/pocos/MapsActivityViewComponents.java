@@ -1,6 +1,6 @@
 package org.softshack.trackme.pocos;
 
-import org.softshack.trackme.MapsActivityModel;
+import org.softshack.trackme.ActivityModel;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.trackme.interfaces.ITrackMap;
@@ -9,27 +9,27 @@ import org.softshack.utils.log.ILogger;
 public class MapsActivityViewComponents {
 
     private ILogger logger;
-    private MapsActivityModel mapsActivityModel;
+    private ActivityModel activityModel;
     private ITrackMap trackMap;
     private IButton yearButton;
     private IDialog yearPicker;
 
     public MapsActivityViewComponents(
             ILogger logger,
-            MapsActivityModel mapsActivityModel,
+            ActivityModel activityModel,
             ITrackMap trackMap,
             IButton yearButton,
             IDialog yearPicker) {
 
         this.logger = logger;
-        this.mapsActivityModel = mapsActivityModel;
+        this.activityModel = activityModel;
         this.trackMap = trackMap;
         this.yearButton = yearButton;
         this.yearPicker = yearPicker;
     }
 
-    public MapsActivityModel getMapsActivityModel() {
-        return mapsActivityModel;
+    public ActivityModel getActivityModel() {
+        return activityModel;
     }
 
     public ITrackMap getTrackMap() {

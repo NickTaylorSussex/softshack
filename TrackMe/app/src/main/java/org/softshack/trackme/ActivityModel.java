@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * This is the data used by the application.
  */
-public class MapsActivityModel {
+public class ActivityModel {
     private String year;
     private Boolean allowUserToCentreMap;
     private double currentLatitude;

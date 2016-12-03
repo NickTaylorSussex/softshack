@@ -1,7 +1,6 @@
 package org.softshack.trackme.pocos;
 
-import org.softshack.trackme.MapsActivityModel;
-import org.softshack.trackme.MapsActivityView;
+import org.softshack.trackme.ActivityModel;
 import org.softshack.trackme.interfaces.IDataProvider;
 import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.trackme.interfaces.IMapsActivityView;
@@ -10,7 +9,7 @@ import org.softshack.utils.log.ILogger;
 public class MapsActivityControllerComponents {
     private ILogger logger;
     private IMapsActivityView mapsActivityView;
-    private MapsActivityModel mapsActivityModel;
+    private ActivityModel activityModel;
     private ILocationProvider locationProvider;
     private IDataProvider dataProvider;
 
@@ -18,19 +17,19 @@ public class MapsActivityControllerComponents {
      * Constructor.
      * @param logger
      * @param mapsActivityView
-     * @param mapsActivityModel
+     * @param activityModel
      * @param locationProvider
      * @param dataProvider
      */
     public MapsActivityControllerComponents(
             ILogger logger,
             IMapsActivityView mapsActivityView,
-            MapsActivityModel mapsActivityModel,
+            ActivityModel activityModel,
             ILocationProvider locationProvider,
             IDataProvider dataProvider) {
         this.logger = logger;
         this.mapsActivityView = mapsActivityView;
-        this.mapsActivityModel = mapsActivityModel;
+        this.activityModel = activityModel;
         this.locationProvider = locationProvider;
         this.dataProvider = dataProvider;
 
@@ -44,9 +43,9 @@ public class MapsActivityControllerComponents {
         return this.mapsActivityView;
     }
 
-    public MapsActivityModel getMapsActivityModel() {
+    public ActivityModel getActivityModel() {
 
-        return this.mapsActivityModel;
+        return this.activityModel;
     }
 
     public ILocationProvider getLocationProvider() {

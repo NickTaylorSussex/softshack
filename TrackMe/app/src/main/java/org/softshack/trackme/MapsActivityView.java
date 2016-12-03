@@ -11,7 +11,7 @@ import org.softshack.utils.obs.EventHandler;
 
 public class MapsActivityView implements IMapsActivityView {
 
-    private MapsActivityModel mapsActivityModel;
+    private ActivityModel activityModel;
     private ITrackMap trackMap;
     private IButton yearButton;
     private IDialog yearPicker;
@@ -24,7 +24,7 @@ public class MapsActivityView implements IMapsActivityView {
      * @param mapsActivityViewComponents Abstracted view components.
      */
     public MapsActivityView(MapsActivityViewComponents mapsActivityViewComponents){
-        this.setMapsActivityModel(mapsActivityViewComponents.getMapsActivityModel());
+        this.setActivityModel(mapsActivityViewComponents.getActivityModel());
         this.trackMap = mapsActivityViewComponents.getTrackMap();
         this.setYearButton(mapsActivityViewComponents.getYearButton());
         this.setYearPicker(mapsActivityViewComponents.getYearPicker());
@@ -49,8 +49,8 @@ public class MapsActivityView implements IMapsActivityView {
         this.getYearPicker().getOnYearChanged().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
-                getMapsActivityModel().setYear(yearPicker.getYear());
-                getYearButton().setText(getMapsActivityModel().getYear());
+                getActivityModel().setYear(yearPicker.getYear());
+                getYearButton().setText(getActivityModel().getYear());
                 getOnDataStale().fire(this, EventArgs.Empty);
             }
         });
@@ -62,7 +62,7 @@ public class MapsActivityView implements IMapsActivityView {
     @Override
     public void initialize(){
         // Enable of disable the centre-map controls.
-        this.trackMap.allowUserToCentreMap(this.getMapsActivityModel().getAllowUserToCentreMap());
+        this.trackMap.allowUserToCentreMap(this.getActivityModel().getAllowUserToCentreMap());
     }
 
     /**
@@ -87,8 +87,8 @@ public class MapsActivityView implements IMapsActivityView {
     @Override
     public void setMapPositionCurrent() {
         trackMap.setMapPosition(
-                this.getMapsActivityModel().getCurrentLatitude(),
-                this.getMapsActivityModel().getCurrentLongitude());
+                this.getActivityModel().getCurrentLatitude(),
+                this.getActivityModel().getCurrentLongitude());
     }
 
     /**
@@ -97,8 +97,8 @@ public class MapsActivityView implements IMapsActivityView {
     @Override
     public void getMapCentre() {
         TrackLocation mapCentre = trackMap.getMapCentre();
-        this.getMapsActivityModel().setCurrentLatitude(mapCentre.getLatitude());
-        this.getMapsActivityModel().setCurrentLongitude(mapCentre.getLongitude());
+        this.getActivityModel().setCurrentLatitude(mapCentre.getLatitude());
+        this.getActivityModel().setCurrentLongitude(mapCentre.getLongitude());
     }
 
     /**
@@ -115,7 +115,7 @@ public class MapsActivityView implements IMapsActivityView {
     @Override
     public void buildHeatMap() {
         this.trackMap.buildHeatMap(
-                this.getMapsActivityModel().getPositions(), this.getMapsActivityModel().getPositionsKey());
+                this.getActivityModel().getPositions(), this.getActivityModel().getPositionsKey());
     }
 
     /**
@@ -129,12 +129,12 @@ public class MapsActivityView implements IMapsActivityView {
     /**
      * @return model data.
      */
-    private MapsActivityModel getMapsActivityModel() {
-        return mapsActivityModel;
+    private ActivityModel getActivityModel() {
+        return activityModel;
     }
 
-    private void setMapsActivityModel(MapsActivityModel mapsActivityModel) {
-        this.mapsActivityModel = mapsActivityModel;
+    private void setActivityModel(ActivityModel activityModel) {
+        this.activityModel = activityModel;
     }
 
     private IDialog getYearPicker() {

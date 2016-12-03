@@ -1,11 +1,7 @@
 package org.softshack.trackme;
 
 import org.json.JSONException;
-import org.softshack.trackme.interfaces.IDataProvider;
-import org.softshack.trackme.interfaces.ILocationProvider;
-import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.pocos.MapsActivityControllerComponents;
-import org.softshack.utils.log.ILogger;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
 
@@ -21,8 +17,8 @@ public class MapsActivityController {
         this.mapsActivityControllerComponents = mapsActivityControllerComponents;
 
         // Store the default map values.
-        this.mapsActivityControllerComponents.getMapsActivityModel().setAllowUserToCentreMap(true);
-        this.mapsActivityControllerComponents.getMapsActivityModel().setYear("2015");
+        this.mapsActivityControllerComponents.getActivityModel().setAllowUserToCentreMap(true);
+        this.mapsActivityControllerComponents.getActivityModel().setYear("2015");
 
         // Create a listener for stale data.
         this.mapsActivityControllerComponents.getMapsActivityView().getOnDataStale().addHandler(new EventHandler<EventArgs>() {
@@ -65,8 +61,8 @@ public class MapsActivityController {
         // Request map centre.
         this.mapsActivityControllerComponents.getMapsActivityView().getMapCentre();
 
-        double latitude = this.mapsActivityControllerComponents.getMapsActivityModel().getCurrentLatitude();
-        double longitude = this.mapsActivityControllerComponents.getMapsActivityModel().getCurrentLongitude();
+        double latitude = this.mapsActivityControllerComponents.getActivityModel().getCurrentLatitude();
+        double longitude = this.mapsActivityControllerComponents.getActivityModel().getCurrentLongitude();
 
         // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
         if (BuildConfig.DEBUG) {
@@ -76,10 +72,10 @@ public class MapsActivityController {
 
         // Build URL
         String lookupUrl = String.format(
-                this.mapsActivityControllerComponents.getMapsActivityModel().getTokenizedUrl(),
+                this.mapsActivityControllerComponents.getActivityModel().getTokenizedUrl(),
                 latitude,
                 longitude,
-                this.mapsActivityControllerComponents.getMapsActivityModel().getYear());
+                this.mapsActivityControllerComponents.getActivityModel().getYear());
 
         // Cancel existing async data request
         this.mapsActivityControllerComponents.getDataProvider().cancelLastRequest();
@@ -108,8 +104,8 @@ public class MapsActivityController {
         }
 
         // Store the new values.
-        this.mapsActivityControllerComponents.getMapsActivityModel().setCurrentLatitude(latitude);
-        this.mapsActivityControllerComponents.getMapsActivityModel().setCurrentLongitude(longitude);
+        this.mapsActivityControllerComponents.getActivityModel().setCurrentLatitude(latitude);
+        this.mapsActivityControllerComponents.getActivityModel().setCurrentLongitude(longitude);
 
         // Tell the map to move to the new location.
         this.mapsActivityControllerComponents.getMapsActivityView().setMapPositionCurrent();
@@ -140,8 +136,8 @@ public class MapsActivityController {
             // Check if the raw data could be converted.
             if (dataSetMapper != null) {
                 // The raw data could be converted, so store the converted data.
-                this.mapsActivityControllerComponents.getMapsActivityModel().setPositionsKey(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName());
-                this.mapsActivityControllerComponents.getMapsActivityModel().getPositions().put(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName(), dataSetMapper);
+                this.mapsActivityControllerComponents.getActivityModel().setPositionsKey(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName());
+                this.mapsActivityControllerComponents.getActivityModel().getPositions().put(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName(), dataSetMapper);
 
                 // Command the map to show a heatmap based on the new data.
                 this.mapsActivityControllerComponents.getMapsActivityView().buildHeatMap();

@@ -1,6 +1,7 @@
 package org.softshack.trackme;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import org.softshack.trackme.adapters.YearPickerDialogAdapter;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.interfaces.ITrackMap;
+import org.softshack.trackme.pocos.GraphsActivityControllerComponents;
 import org.softshack.trackme.pocos.LocationManagerComponents;
 import org.softshack.trackme.pocos.MapsActivityControllerComponents;
 import org.softshack.trackme.pocos.MapsActivityViewComponents;
@@ -34,7 +36,7 @@ public class MapsActivity extends BaseActivity {
         ITrackMap trackMap = new GoogleMapAdapter(getMap());
 
         // Create a data model.
-        MapsActivityModel mapsActivityModel = new MapsActivityModel();
+        ActivityModel activityModel = new ActivityModel();
 
         // Adapt a button to an abstraction to be used in the application.
         IButton yearButton = new ButtonAdapter((Button)this.findViewById(R.id.yearButton));
@@ -42,7 +44,7 @@ public class MapsActivity extends BaseActivity {
         // Create a view which is an abstraction of the user interface.
         MapsActivityViewComponents mapsActivityViewComponents = new MapsActivityViewComponents(
                 logger,
-                mapsActivityModel,
+                activityModel,
                 trackMap,
                 yearButton,
                 new YearPickerDialogAdapter(new Dialog(MapsActivity.this)));
@@ -61,7 +63,7 @@ public class MapsActivity extends BaseActivity {
                 new MapsActivityControllerComponents(
                         logger,
                         mapsActivityView,
-                        mapsActivityModel,
+                        activityModel,
                         new LocationProvider(new LocationManagerAdapter(locationManagerComponents)),
                         new DataProvider(
                                 new TaskFactory(),
@@ -73,6 +75,18 @@ public class MapsActivity extends BaseActivity {
         MapsActivityController mapsActivityController =
                 new MapsActivityController(mapsActivityControllerComponents);
 
+        GraphsActivityView graphsActivityView = new GraphsActivityView();
+
+        GraphsActivityControllerComponents graphsActivityControllerComponents =
+                new GraphsActivityControllerComponents(
+                        graphsActivityView,
+                        activityModel);
+
+        GraphsActivityController graphsActivityController =
+                new GraphsActivityController(
+                        graphsActivityControllerComponents );
+
+
         // Initiate the controller.
         try {
             mapsActivityController.start();
@@ -80,6 +94,11 @@ public class MapsActivity extends BaseActivity {
 
             Toast.makeText(this, "Security error. Please allow the fine location permissions.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onHistoryClicked(android.view.View view) {
+        Intent intent = new Intent(this, GraphsActivity.class);
+        startActivity(intent);
     }
 }
 

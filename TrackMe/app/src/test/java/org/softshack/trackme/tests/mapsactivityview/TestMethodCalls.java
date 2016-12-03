@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softshack.trackme.DataSetMapper;
-import org.softshack.trackme.MapsActivityModel;
+import org.softshack.trackme.ActivityModel;
 import org.softshack.trackme.MapsActivityView;
 import org.softshack.trackme.TrackLocation;
 import org.softshack.trackme.pocos.MapsActivityViewComponents;
@@ -33,7 +33,7 @@ public class TestMethodCalls {
     MapsActivityViewComponents mockMapsActivityViewComponents;
 
     @Mock
-    MapsActivityModel mockMapsActivityModel;
+    ActivityModel mockActivityModel;
 
     @Mock
     ITrackMap mockTrackMap;
@@ -55,7 +55,7 @@ public class TestMethodCalls {
 
     @Before
     public void setup() throws Exception {
-        when(mockMapsActivityViewComponents.getMapsActivityModel()).thenReturn(mockMapsActivityModel);
+        when(mockMapsActivityViewComponents.getActivityModel()).thenReturn(mockActivityModel);
         when(mockMapsActivityViewComponents.getTrackMap()).thenReturn(mockTrackMap);
         when(mockMapsActivityViewComponents.getYearButton()).thenReturn(mockYearButton);
         when(mockMapsActivityViewComponents.getYearPicker()).thenReturn(mockYearPicker);
@@ -74,7 +74,7 @@ public class TestMethodCalls {
         this.mapsActivityView.initialize();
 
         // Assert
-        verify(this.mockMapsActivityModel, times(1)).getAllowUserToCentreMap();
+        verify(this.mockActivityModel, times(1)).getAllowUserToCentreMap();
         verify(this.mockTrackMap, times(1)).allowUserToCentreMap(anyBoolean());
     }
 
@@ -86,15 +86,15 @@ public class TestMethodCalls {
 
         this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
-        when(this.mockMapsActivityModel.getCurrentLatitude()).thenReturn(fakeLatitudeValue);
-        when(this.mockMapsActivityModel.getCurrentLongitude()).thenReturn(2.0);
+        when(this.mockActivityModel.getCurrentLatitude()).thenReturn(fakeLatitudeValue);
+        when(this.mockActivityModel.getCurrentLongitude()).thenReturn(2.0);
 
         // Act
         this.mapsActivityView.setMapPositionCurrent();
 
         // Assert
-        verify(this.mockMapsActivityModel, times(1)).getCurrentLatitude();
-        verify(this.mockMapsActivityModel, times(1)).getCurrentLongitude();
+        verify(this.mockActivityModel, times(1)).getCurrentLatitude();
+        verify(this.mockActivityModel, times(1)).getCurrentLongitude();
         verify(this.mockTrackMap, times(1)).setMapPosition(fakeLatitudeValue, fakeLongitudeValue);
     }
 
@@ -117,8 +117,8 @@ public class TestMethodCalls {
         verify(this.mockTrackMap, times(1)).getMapCentre();
         verify(this.mockTrackLocation, times(1)).getLatitude();
         verify(this.mockTrackLocation, times(1)).getLongitude();
-        verify(this.mockMapsActivityModel, times(1)).setCurrentLatitude(fakeLatitudeValue);
-        verify(this.mockMapsActivityModel, times(1)).setCurrentLongitude(fakeLongitudeValue);
+        verify(this.mockActivityModel, times(1)).setCurrentLatitude(fakeLatitudeValue);
+        verify(this.mockActivityModel, times(1)).setCurrentLongitude(fakeLongitudeValue);
     }
 
     @Test
@@ -140,8 +140,8 @@ public class TestMethodCalls {
 
         this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
-        when(this.mockMapsActivityModel.getPositions()).thenReturn(mockPositions);
-        when(this.mockMapsActivityModel.getPositionsKey()).thenReturn(fakeKey);
+        when(this.mockActivityModel.getPositions()).thenReturn(mockPositions);
+        when(this.mockActivityModel.getPositionsKey()).thenReturn(fakeKey);
 
         // Act
         this.mapsActivityView.buildHeatMap();
