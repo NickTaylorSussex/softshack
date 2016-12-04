@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Helper class - stores data sets and sources.
  */
-public class DataSetMapper implements IDataSetMapper {
+public class DataSetMapMapper implements IDataSetMapper {
     private ArrayList<WeightedLatLng> dataSet;
     private String url;
 
@@ -18,7 +18,7 @@ public class DataSetMapper implements IDataSetMapper {
      * @param dataSet
      * @param url
      */
-    public DataSetMapper(ArrayList<WeightedLatLng> dataSet, String url) {
+    public DataSetMapMapper(ArrayList<WeightedLatLng> dataSet, String url) {
         this.dataSet = dataSet;
         this.url = url;
     }

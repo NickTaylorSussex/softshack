@@ -5,14 +5,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.softshack.trackme.DataSetMapper;
-import org.softshack.trackme.ActivityModel;
+import org.softshack.trackme.DataSetMapMapper;
+import org.softshack.trackme.MapsActivityModel;
 import org.softshack.trackme.MapsActivityView;
 import org.softshack.trackme.TrackLocation;
+import org.softshack.trackme.interfaces.IScreen;
 import org.softshack.trackme.pocos.MapsActivityViewComponents;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.trackme.interfaces.ITrackMap;
+import org.softshack.utils.log.ILogger;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 
@@ -33,7 +35,7 @@ public class TestMethodCalls {
     MapsActivityViewComponents mockMapsActivityViewComponents;
 
     @Mock
-    ActivityModel mockActivityModel;
+    MapsActivityModel mockActivityModel;
 
     @Mock
     ITrackMap mockTrackMap;
@@ -51,7 +53,16 @@ public class TestMethodCalls {
     DefaultEvent<EventArgs> mockEvent;
 
     @Mock
-    HashMap<String, DataSetMapper> mockPositions;
+    HashMap<String, DataSetMapMapper> mockPositions;
+
+    @Mock
+    ILogger mockLogger;
+
+    @Mock
+    IButton mockHistoryButton;
+
+    @Mock
+    IScreen mockGraphScreen;
 
     @Before
     public void setup() throws Exception {
@@ -59,6 +70,10 @@ public class TestMethodCalls {
         when(mockMapsActivityViewComponents.getTrackMap()).thenReturn(mockTrackMap);
         when(mockMapsActivityViewComponents.getYearButton()).thenReturn(mockYearButton);
         when(mockMapsActivityViewComponents.getYearPicker()).thenReturn(mockYearPicker);
+        when(mockMapsActivityViewComponents.getLogger()).thenReturn(mockLogger);
+        when(mockMapsActivityViewComponents.getHistoryButton()).thenReturn(mockHistoryButton);
+        when(mockMapsActivityViewComponents.getGraphScreen()).thenReturn(mockGraphScreen);
+
 
         when(mockTrackMap.getOnMapIdle()).thenReturn(mockEvent);
         when(mockYearButton.getOnClicked()).thenReturn(mockEvent);
@@ -68,6 +83,8 @@ public class TestMethodCalls {
     @Test
     public void testInitialize() throws Exception {
         // Arrange
+        when(mockActivityModel.getAllowUserToCentreMap()).thenReturn(true);
+
         this.mapsActivityView = new MapsActivityView(mockMapsActivityViewComponents);
 
         // Act

@@ -3,6 +3,7 @@ package org.softshack.trackme;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IDialog;
 import org.softshack.trackme.interfaces.IMapsActivityView;
+import org.softshack.trackme.interfaces.IScreen;
 import org.softshack.trackme.interfaces.ITrackMap;
 import org.softshack.trackme.pocos.MapsActivityViewComponents;
 import org.softshack.utils.obs.DefaultEvent;
@@ -11,13 +12,16 @@ import org.softshack.utils.obs.EventHandler;
 
 public class MapsActivityView implements IMapsActivityView {
 
-    private ActivityModel activityModel;
+    private MapsActivityModel activityModel;
     private ITrackMap trackMap;
     private IButton yearButton;
     private IDialog yearPicker;
+    private IButton historyButton;
+    private IScreen historyScreen;
 
     private final DefaultEvent<EventArgs> onDataStale = new DefaultEvent<EventArgs>();
     private final DefaultEvent<EventArgs> onChangeYearRequested = new DefaultEvent<EventArgs>();
+    private final DefaultEvent<EventArgs> onHistoryRequested = new DefaultEvent<EventArgs>();
 
     /**
      * Constructor
@@ -28,6 +32,8 @@ public class MapsActivityView implements IMapsActivityView {
         this.trackMap = mapsActivityViewComponents.getTrackMap();
         this.setYearButton(mapsActivityViewComponents.getYearButton());
         this.setYearPicker(mapsActivityViewComponents.getYearPicker());
+        this.setHistoryButton(mapsActivityViewComponents.getHistoryButton());
+        this.setHistoryScreen(mapsActivityViewComponents.getGraphScreen());
 
         // Set handler for stale data notification and notify listeners.
         this.trackMap.getOnMapIdle().addHandler(new EventHandler<EventArgs>() {
@@ -52,6 +58,14 @@ public class MapsActivityView implements IMapsActivityView {
                 getActivityModel().setYear(yearPicker.getYear());
                 getYearButton().setText(getActivityModel().getYear());
                 getOnDataStale().fire(this, EventArgs.Empty);
+            }
+        });
+
+        // Set the handler for history button clicked and notify listeners.
+        this.getHistoryButton().getOnClicked().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                getOnHistoryRequested().fire(this, EventArgs.Empty);
             }
         });
     }
@@ -80,6 +94,9 @@ public class MapsActivityView implements IMapsActivityView {
     public DefaultEvent<EventArgs> getOnChangeYearRequested() {
         return onChangeYearRequested;
     }
+
+    @Override
+    public DefaultEvent<EventArgs> getOnHistoryRequested() { return onHistoryRequested; }
 
     /**
      * Moves the map to the current coordinates.
@@ -129,11 +146,11 @@ public class MapsActivityView implements IMapsActivityView {
     /**
      * @return model data.
      */
-    private ActivityModel getActivityModel() {
+    private MapsActivityModel getActivityModel() {
         return activityModel;
     }
 
-    private void setActivityModel(ActivityModel activityModel) {
+    private void setActivityModel(MapsActivityModel activityModel) {
         this.activityModel = activityModel;
     }
 
@@ -151,5 +168,26 @@ public class MapsActivityView implements IMapsActivityView {
 
     private void setYearButton(IButton yearButton) {
         this.yearButton = yearButton;
+    }
+
+    private IButton getHistoryButton() { return historyButton; }
+
+    private void setHistoryButton(IButton historyButton) { this.historyButton = historyButton; }
+
+    @Override
+    public void ShowHistory(){
+        this.historyScreen.setLocation(
+                this.getActivityModel().getCurrentLatitude(),
+                this.getActivityModel().getCurrentLongitude());
+
+        this.historyScreen.show();
+    }
+
+    private IScreen getHistoryScreen() {
+        return historyScreen;
+    }
+
+    private void setHistoryScreen(IScreen historyScreen) {
+        this.historyScreen = historyScreen;
     }
 }

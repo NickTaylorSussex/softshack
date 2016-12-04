@@ -6,14 +6,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.softshack.trackme.DataSetMapper;
+import org.softshack.trackme.DataSetMapMapper;
 import org.softshack.trackme.MapsActivityController;
-import org.softshack.trackme.ActivityModel;
+import org.softshack.trackme.MapsActivityModel;
 import org.softshack.trackme.TrackLocation;
-import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.interfaces.IMapDataProvider;
 import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.pocos.MapsActivityControllerComponents;
+import org.softshack.utils.log.ILogger;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 import org.softshack.utils.obs.EventHandler;
@@ -35,16 +36,16 @@ public class TestMethodCalls {
     IMapsActivityView mockMapsActivityView;
 
     @Mock
-    ActivityModel mockActivityModel;
+    MapsActivityModel mockActivityModel;
 
     @Mock
     ILocationProvider mockLocationProvider;
 
     @Mock
-    IDataProvider mockDataProvider;
+    IMapDataProvider mockDataProvider;
 
     @Mock
-    DataSetMapper mockDataSetMapper;
+    DataSetMapMapper mockDataSetMapMapper;
 
     @Mock
     DefaultEvent<EventArgs> mockOnDataStaleEvent;
@@ -59,10 +60,13 @@ public class TestMethodCalls {
     DefaultEvent<EventArgs> mockOnDataChangedEvent;
 
     @Mock
-    HashMap<String, DataSetMapper> mockHashMap;
+    HashMap<String, DataSetMapMapper> mockHashMap;
 
     @Mock
     MapsActivityControllerComponents mockMapsActivityControllerComponents;
+
+    @Mock
+    ILogger mockLogger;
 
     private double randomLatitude(){
         Random r = new Random();
@@ -80,6 +84,7 @@ public class TestMethodCalls {
         when(mockMapsActivityControllerComponents.getLocationProvider()).thenReturn(mockLocationProvider);
         when(mockMapsActivityControllerComponents.getMapsActivityView()).thenReturn(mockMapsActivityView);
         when(mockMapsActivityControllerComponents.getActivityModel()).thenReturn(mockActivityModel);
+        when(mockMapsActivityControllerComponents.getLogger()).thenReturn(mockLogger);
 
         when(mockMapsActivityView.getOnDataStale()).thenReturn(mockOnDataStaleEvent);
         when(mockMapsActivityView.getOnChangeYearRequested()).thenReturn(mockOnChangeYearRequestedEvent);
@@ -120,7 +125,7 @@ public class TestMethodCalls {
         double randomLatitude = this.randomLatitude();
         double randomLongitude = this.randomLongitude();
 
-        when(mockActivityModel.getTokenizedUrl()).thenReturn("%s|%s|%s");
+        when(mockActivityModel.getTokenizedMapUrl()).thenReturn("%s|%s|%s");
         when(mockActivityModel.getCurrentLatitude()).thenReturn(randomLatitude);
         when(mockActivityModel.getCurrentLongitude()).thenReturn(randomLongitude );
         when(mockActivityModel.getYear()).thenReturn("2016");
@@ -130,7 +135,7 @@ public class TestMethodCalls {
         // Assert
         verify(this.mockMapsActivityView, times(1)).getMapCentre();
 
-        verify(this.mockActivityModel, times(1)).getTokenizedUrl();
+        verify(this.mockActivityModel, times(1)).getTokenizedMapUrl();
         verify(this.mockActivityModel, times(1)).getCurrentLatitude();
         verify(this.mockActivityModel, times(1)).getCurrentLongitude();
         verify(this.mockActivityModel, times(1)).getYear();
@@ -157,7 +162,7 @@ public class TestMethodCalls {
         // Assert
         verify(this.mockMapsActivityView, times(0)).getMapCentre();
 
-        verify(this.mockActivityModel, times(0)).getTokenizedUrl();
+        verify(this.mockActivityModel, times(0)).getTokenizedMapUrl();
         verify(this.mockActivityModel, times(0)).getCurrentLatitude();
         verify(this.mockActivityModel, times(0)).getCurrentLongitude();
         verify(this.mockActivityModel, times(0)).getYear();
@@ -184,7 +189,7 @@ public class TestMethodCalls {
         // Assert
         verify(this.mockMapsActivityView, times(0)).getMapCentre();
 
-        verify(this.mockActivityModel, times(0)).getTokenizedUrl();
+        verify(this.mockActivityModel, times(0)).getTokenizedMapUrl();
         verify(this.mockActivityModel, times(0)).getCurrentLatitude();
         verify(this.mockActivityModel, times(0)).getCurrentLongitude();
         verify(this.mockActivityModel, times(0)).getYear();
@@ -271,7 +276,7 @@ public class TestMethodCalls {
     @Test
     public void testHandleDataChange() throws Exception {
         // Arrange
-        when(mockDataProvider.convertData()).thenReturn(mockDataSetMapper);
+        when(mockDataProvider.convertData()).thenReturn(mockDataSetMapMapper);
         when(mockDataProvider.getMapDataSetName()).thenReturn("name");
         when(mockActivityModel.getPositions()).thenReturn(mockHashMap);
 
@@ -283,7 +288,7 @@ public class TestMethodCalls {
 
         verify(this.mockActivityModel, times(1)).setPositionsKey("name");
         verify(this.mockActivityModel, times(1)).getPositions();
-        verify(this.mockHashMap, times(1)).put("name", mockDataSetMapper);
+        verify(this.mockHashMap, times(1)).put("name", mockDataSetMapMapper);
         verify(this.mockMapsActivityView, times(1)).buildHeatMap();
 
     }

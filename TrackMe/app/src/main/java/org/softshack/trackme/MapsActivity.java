@@ -10,13 +10,13 @@ import org.softshack.trackme.adapters.AndroidLogAdapter;
 import org.softshack.trackme.adapters.ButtonAdapter;
 import org.softshack.trackme.adapters.ContextAdapter;
 import org.softshack.trackme.adapters.GoogleMapAdapter;
+import org.softshack.trackme.adapters.IntentAdapter;
 import org.softshack.trackme.adapters.LocationManagerAdapter;
 import org.softshack.trackme.adapters.PermissionAdapter;
 import org.softshack.trackme.adapters.YearPickerDialogAdapter;
 import org.softshack.trackme.interfaces.IButton;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.trackme.interfaces.ITrackMap;
-import org.softshack.trackme.pocos.GraphsActivityControllerComponents;
 import org.softshack.trackme.pocos.LocationManagerComponents;
 import org.softshack.trackme.pocos.MapsActivityControllerComponents;
 import org.softshack.trackme.pocos.MapsActivityViewComponents;
@@ -36,10 +36,14 @@ public class MapsActivity extends BaseActivity {
         ITrackMap trackMap = new GoogleMapAdapter(getMap());
 
         // Create a data model.
-        ActivityModel activityModel = new ActivityModel();
+        MapsActivityModel activityModel = new MapsActivityModel();
 
         // Adapt a button to an abstraction to be used in the application.
         IButton yearButton = new ButtonAdapter((Button)this.findViewById(R.id.yearButton));
+
+        IButton historyButton = new ButtonAdapter((Button)this.findViewById(R.id.historyButton));
+
+        Intent graphsIntent = new Intent(this, GraphsActivity.class);
 
         // Create a view which is an abstraction of the user interface.
         MapsActivityViewComponents mapsActivityViewComponents = new MapsActivityViewComponents(
@@ -47,7 +51,9 @@ public class MapsActivity extends BaseActivity {
                 activityModel,
                 trackMap,
                 yearButton,
-                new YearPickerDialogAdapter(new Dialog(MapsActivity.this)));
+                new YearPickerDialogAdapter(new Dialog(MapsActivity.this)),
+                historyButton,
+                new IntentAdapter(this, graphsIntent));
 
         IMapsActivityView mapsActivityView = new MapsActivityView(mapsActivityViewComponents);
 
@@ -57,7 +63,6 @@ public class MapsActivity extends BaseActivity {
                         getPackageManager(),
                         getApplicationContext()));
 
-
         // Create a controller to manage the data requests and command the user interface.
         MapsActivityControllerComponents mapsActivityControllerComponents =
                 new MapsActivityControllerComponents(
@@ -65,7 +70,7 @@ public class MapsActivity extends BaseActivity {
                         mapsActivityView,
                         activityModel,
                         new LocationProvider(new LocationManagerAdapter(locationManagerComponents)),
-                        new DataProvider(
+                        new MapDataProvider(
                                 new TaskFactory(),
                                 new ContextAdapter(getApplicationContext()),
                                 new DataSetMapperFactory(),
@@ -75,30 +80,14 @@ public class MapsActivity extends BaseActivity {
         MapsActivityController mapsActivityController =
                 new MapsActivityController(mapsActivityControllerComponents);
 
-        GraphsActivityView graphsActivityView = new GraphsActivityView();
 
-        GraphsActivityControllerComponents graphsActivityControllerComponents =
-                new GraphsActivityControllerComponents(
-                        graphsActivityView,
-                        activityModel);
-
-        GraphsActivityController graphsActivityController =
-                new GraphsActivityController(
-                        graphsActivityControllerComponents );
-
-
-        // Initiate the controller.
+        // Initiate the main controller.
         try {
             mapsActivityController.start();
         } catch (SecurityException e) {
 
             Toast.makeText(this, "Security error. Please allow the fine location permissions.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void onHistoryClicked(android.view.View view) {
-        Intent intent = new Intent(this, GraphsActivity.class);
-        startActivity(intent);
     }
 }
 

@@ -1,29 +1,46 @@
 package org.softshack.trackme.pocos;
 
-import org.softshack.trackme.ActivityModel;
+import org.softshack.trackme.GraphsActivityModel;
+import org.softshack.trackme.interfaces.IGraphDataProvider;
 import org.softshack.trackme.interfaces.IGraphsActivityView;
-
-/**
- * Created by Nick on 03/12/2016.
- */
+import org.softshack.utils.log.ILogger;
 
 public class GraphsActivityControllerComponents {
+    private ILogger logger;
     private IGraphsActivityView graphsActivityView;
-    private ActivityModel activityModel;
+    private GraphsActivityModel activityModel;
+    private IGraphDataProvider dataProvider;
 
+    /**
+     * Constructor.
+     * @param logger
+     * @param graphsActivityView
+     * @param activityModel
+     * @param dataProvider
+     */
     public GraphsActivityControllerComponents(
+            ILogger logger,
             IGraphsActivityView graphsActivityView,
-            ActivityModel activityModel) {
+            GraphsActivityModel activityModel,
+            IGraphDataProvider dataProvider) {
 
+        this.logger = logger;
         this.graphsActivityView = graphsActivityView;
         this.activityModel = activityModel;
+        this.dataProvider = dataProvider;
+    }
+
+    public ILogger getLogger() {
+        return this.logger;
     }
 
     public IGraphsActivityView getGraphsActivityView() {
         return graphsActivityView;
     }
 
-    public ActivityModel getActivityModel() {
+    public GraphsActivityModel getActivityModel() {
         return activityModel;
     }
+
+    public IGraphDataProvider getDataProvider() { return this.dataProvider; }
 }

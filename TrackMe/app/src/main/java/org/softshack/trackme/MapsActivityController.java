@@ -51,6 +51,14 @@ public class MapsActivityController {
                 handleDataChanged();
             }
         });
+
+        // Create a listener for when the history is requested.
+        this.mapsActivityControllerComponents.getMapsActivityView().getOnHistoryRequested().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleHistoryRequested();
+            }
+        });
     }
 
     /**
@@ -72,7 +80,7 @@ public class MapsActivityController {
 
         // Build URL
         String lookupUrl = String.format(
-                this.mapsActivityControllerComponents.getActivityModel().getTokenizedUrl(),
+                this.mapsActivityControllerComponents.getActivityModel().getTokenizedMapUrl(),
                 latitude,
                 longitude,
                 this.mapsActivityControllerComponents.getActivityModel().getYear());
@@ -131,13 +139,13 @@ public class MapsActivityController {
     public void handleDataChanged() {
         try {
             // Convert the raw data to the form expected by the map.
-            DataSetMapper dataSetMapper = this.mapsActivityControllerComponents.getDataProvider().convertData();
+            DataSetMapMapper dataSetMapMapper = this.mapsActivityControllerComponents.getDataProvider().convertData();
 
             // Check if the raw data could be converted.
-            if (dataSetMapper != null) {
+            if (dataSetMapMapper != null) {
                 // The raw data could be converted, so store the converted data.
                 this.mapsActivityControllerComponents.getActivityModel().setPositionsKey(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName());
-                this.mapsActivityControllerComponents.getActivityModel().getPositions().put(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName(), dataSetMapper);
+                this.mapsActivityControllerComponents.getActivityModel().getPositions().put(this.mapsActivityControllerComponents.getDataProvider().getMapDataSetName(), dataSetMapMapper);
 
                 // Command the map to show a heatmap based on the new data.
                 this.mapsActivityControllerComponents.getMapsActivityView().buildHeatMap();
@@ -157,5 +165,13 @@ public class MapsActivityController {
     public void handleChangeYearRequested() {
         // Command the user interface to update the year display.
         this.mapsActivityControllerComponents.getMapsActivityView().updateYear();
+    }
+
+    /**
+     * Handle the history being requested
+     */
+    public void handleHistoryRequested() {
+        // Command the user interface to shpw the history;
+        this.mapsActivityControllerComponents.getMapsActivityView().ShowHistory();
     }
 }

@@ -6,7 +6,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.text.DecimalFormat;
 
 /**
- * Created by Nick on 03/12/2016.
+ * Formatter for the X-Axis of the house price graph.
  */
 
 public class MyAxisValueFormatter implements IAxisValueFormatter {

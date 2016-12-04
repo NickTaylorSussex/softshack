@@ -11,6 +11,8 @@ public interface IMapsActivityView  {
 
     DefaultEvent<EventArgs> getOnChangeYearRequested();
 
+    DefaultEvent<EventArgs> getOnHistoryRequested();
+
     void setMapPositionCurrent();
 
     void getMapCentre();
@@ -20,4 +22,6 @@ public interface IMapsActivityView  {
     void buildHeatMap();
 
     void updateYear();
+
+    void ShowHistory();
 }

@@ -1,8 +1,11 @@
 package org.softshack.trackme.interfaces;
 
 /**
- * Created by Nick on 22/11/2016.
+ * Interface representing a graph.
  */
 
 public interface IGraphsActivityView {
+    void clearGraph();
+
+    void buildGraph();
 }

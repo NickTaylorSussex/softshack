@@ -1,7 +1,7 @@
 package org.softshack.trackme.pocos;
 
-import org.softshack.trackme.ActivityModel;
-import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.MapsActivityModel;
+import org.softshack.trackme.interfaces.IMapDataProvider;
 import org.softshack.trackme.interfaces.ILocationProvider;
 import org.softshack.trackme.interfaces.IMapsActivityView;
 import org.softshack.utils.log.ILogger;
@@ -9,9 +9,9 @@ import org.softshack.utils.log.ILogger;
 public class MapsActivityControllerComponents {
     private ILogger logger;
     private IMapsActivityView mapsActivityView;
-    private ActivityModel activityModel;
+    private MapsActivityModel activityModel;
     private ILocationProvider locationProvider;
-    private IDataProvider dataProvider;
+    private IMapDataProvider dataProvider;
 
     /**
      * Constructor.
@@ -24,15 +24,14 @@ public class MapsActivityControllerComponents {
     public MapsActivityControllerComponents(
             ILogger logger,
             IMapsActivityView mapsActivityView,
-            ActivityModel activityModel,
+            MapsActivityModel activityModel,
             ILocationProvider locationProvider,
-            IDataProvider dataProvider) {
+            IMapDataProvider dataProvider) {
         this.logger = logger;
         this.mapsActivityView = mapsActivityView;
         this.activityModel = activityModel;
         this.locationProvider = locationProvider;
         this.dataProvider = dataProvider;
-
     }
 
     public ILogger getLogger() {
@@ -43,7 +42,7 @@ public class MapsActivityControllerComponents {
         return this.mapsActivityView;
     }
 
-    public ActivityModel getActivityModel() {
+    public MapsActivityModel getActivityModel() {
 
         return this.activityModel;
     }
@@ -52,7 +51,5 @@ public class MapsActivityControllerComponents {
         return this.locationProvider;
     }
 
-    public IDataProvider getDataProvider() {
-        return this.dataProvider;
-    }
+    public IMapDataProvider getDataProvider() { return this.dataProvider; }
 }

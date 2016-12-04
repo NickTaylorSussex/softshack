@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
-import org.softshack.trackme.DataSetMapper;
+import org.softshack.trackme.DataSetMapMapper;
 import org.softshack.trackme.TrackLocation;
 import org.softshack.trackme.interfaces.ITrackMap;
 import org.softshack.utils.obs.DefaultEvent;
@@ -61,7 +61,7 @@ public class GoogleMapAdapter implements ITrackMap, GoogleMap.OnCameraIdleListen
     }
 
     @Override
-    public void buildHeatMap(HashMap<String, DataSetMapper> positions, String key){
+    public void buildHeatMap(HashMap<String, DataSetMapMapper> positions, String key){
         HeatmapTileProvider heatmap = new HeatmapTileProvider.Builder().weightedData(
                 positions.get(key).getData()).build();
 
