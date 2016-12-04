@@ -68,6 +68,9 @@ public class TestMethodCalls {
     @Mock
     ILogger mockLogger;
 
+    @Mock
+    DefaultEvent<EventArgs> mockOnHistoryRequestedEvent;
+
     private double randomLatitude(){
         Random r = new Random();
         return (r.nextDouble()-0.5d) * 90;
@@ -88,6 +91,7 @@ public class TestMethodCalls {
 
         when(mockMapsActivityView.getOnDataStale()).thenReturn(mockOnDataStaleEvent);
         when(mockMapsActivityView.getOnChangeYearRequested()).thenReturn(mockOnChangeYearRequestedEvent);
+        when(mockMapsActivityView.getOnHistoryRequested()).thenReturn(mockOnHistoryRequestedEvent);
         when(mockLocationProvider.getOnLocationFound()).thenReturn(mockOnLocationFoundEvent);
         when(mockDataProvider.getOnDataChanged()).thenReturn(mockOnDataChangedEvent);
 

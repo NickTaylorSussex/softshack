@@ -78,6 +78,7 @@ public class TestMethodCalls {
         when(mockTrackMap.getOnMapIdle()).thenReturn(mockEvent);
         when(mockYearButton.getOnClicked()).thenReturn(mockEvent);
         when(mockYearPicker.getOnYearChanged()).thenReturn(mockEvent);
+        when(mockHistoryButton.getOnClicked()).thenReturn(mockEvent);
     }
 
     @Test
