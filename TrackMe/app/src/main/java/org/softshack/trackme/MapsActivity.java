@@ -45,6 +45,8 @@ public class MapsActivity extends BaseActivity {
 
         Intent graphsIntent = new Intent(this, GraphsActivity.class);
 
+        logger.LogDebug("start", "Attempting create of MapsActivityViewComponents");
+
         // Create a view which is an abstraction of the user interface.
         MapsActivityViewComponents mapsActivityViewComponents = new MapsActivityViewComponents(
                 logger,
@@ -55,13 +57,20 @@ public class MapsActivity extends BaseActivity {
                 historyButton,
                 new IntentAdapter(this, graphsIntent));
 
+
+        logger.LogDebug("start", "Attempting create of IMapsActivityView");
+
         IMapsActivityView mapsActivityView = new MapsActivityView(mapsActivityViewComponents);
+
+        logger.LogDebug("start", "Attempting create of LocationManagerComponents");
 
         LocationManagerComponents locationManagerComponents = new LocationManagerComponents(
                 (LocationManager) getSystemService(LOCATION_SERVICE),
                 new PermissionAdapter(
                         getPackageManager(),
                         getApplicationContext()));
+
+        logger.LogDebug("start", "Attempting create of MapsActivityControllerComponents");
 
         // Create a controller to manage the data requests and command the user interface.
         MapsActivityControllerComponents mapsActivityControllerComponents =
@@ -77,15 +86,17 @@ public class MapsActivity extends BaseActivity {
                                 new JSONFactory())
                 );
 
+        logger.LogDebug("start", "Attempting create of MapsActivityController");
         MapsActivityController mapsActivityController =
                 new MapsActivityController(mapsActivityControllerComponents);
 
 
         // Initiate the main controller.
         try {
+            logger.LogDebug("start", "Attempting start of MapsActivityController");
             mapsActivityController.start();
         } catch (SecurityException e) {
-
+            logger.LogError("start", e);
             Toast.makeText(this, "Security error. Please allow the fine location permissions.", Toast.LENGTH_SHORT).show();
         }
     }

@@ -67,6 +67,8 @@ public class GraphsActivityController {
      */
     public void handleDataChanged() {
         try {
+            this.graphsActivityControllerComponents.getLogger().LogDebug("handleDataChanged", "Attempting data change.");
+
             // Convert the raw data to the form expected by the map.
             DataSetGraphMapper dataSetGraphMapper = this.graphsActivityControllerComponents.getDataProvider().convertData();
 
@@ -86,6 +88,7 @@ public class GraphsActivityController {
                 this.graphsActivityControllerComponents.getGraphsActivityView().clearGraph();
             }
         } catch (JSONException e) {
+            this.graphsActivityControllerComponents.getLogger().LogError("handleDataChanged", e);
             this.graphsActivityControllerComponents.getGraphsActivityView().clearGraph();
         }
     }

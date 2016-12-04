@@ -138,6 +138,8 @@ public class MapsActivityController {
      */
     public void handleDataChanged() {
         try {
+            this.mapsActivityControllerComponents.getLogger().LogDebug("handleDataChanged", "Attempting data change.");
+
             // Convert the raw data to the form expected by the map.
             DataSetMapMapper dataSetMapMapper = this.mapsActivityControllerComponents.getDataProvider().convertData();
 
@@ -155,6 +157,7 @@ public class MapsActivityController {
                 this.mapsActivityControllerComponents.getMapsActivityView().clearMap();
             }
         } catch (JSONException e) {
+            this.mapsActivityControllerComponents.getLogger().LogError("handleDataChanged", e);
             this.mapsActivityControllerComponents.getMapsActivityView().clearMap();
         }
     }

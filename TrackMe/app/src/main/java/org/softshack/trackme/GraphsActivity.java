@@ -38,6 +38,8 @@ public class GraphsActivity extends AppCompatActivity {
         activityModel.setCurrentLatitude(intent.getDoubleExtra("latitude", 0));
         activityModel.setCurrentLongitude(intent.getDoubleExtra("longitude", 0));
 
+        logger.LogDebug("onCreate", "Attempting create of BarChart");
+
         BarChart chart = (BarChart) findViewById(R.id.chart);
         chart.setFitBars(true);
         chart.animateY(5000);
@@ -53,16 +55,23 @@ public class GraphsActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new MyAxisValueFormatter());
 
+        logger.LogDebug("onCreate", "Attempting create of GraphsAdapter");
+
         GraphsAdapter graphsAdapter = new GraphsAdapter(chart);
+
+        logger.LogDebug("onCreate", "Attempting create of GraphsActivityViewComponents");
 
         GraphsActivityViewComponents graphsActivityViewComponents =
                 new GraphsActivityViewComponents(
+                        logger,
                         graphsAdapter,
                         activityModel);
 
+        logger.LogDebug("onCreate", "Attempting create of GraphsActivityView");
 
         GraphsActivityView graphsActivityView = new GraphsActivityView(graphsActivityViewComponents);
 
+        logger.LogDebug("onCreate", "Attempting handler creation of getOnActivityWaitShow");
 
         graphsActivityView.getOnActivityWaitShow().addHandler(new EventHandler<EventArgs>() {
             @Override
@@ -71,12 +80,16 @@ public class GraphsActivity extends AppCompatActivity {
             }
         });
 
+        logger.LogDebug("onCreate", "Attempting handler creation of getOnActivityWaitDismiss");
+
         graphsActivityView.getOnActivityWaitDismiss().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
                 handleWaitDismiss();
             }
         });
+
+        logger.LogDebug("onCreate", "Attempting creation of GraphsActivityControllerComponents");
 
         GraphsActivityControllerComponents graphsActivityControllerComponents =
                 new GraphsActivityControllerComponents(
@@ -90,10 +103,13 @@ public class GraphsActivity extends AppCompatActivity {
                                 new JSONFactory())
                 );
 
+        logger.LogDebug("onCreate", "Attempting creation of GraphsActivityController");
+
         GraphsActivityController graphsActivityController =
                 new GraphsActivityController(
                         graphsActivityControllerComponents);
 
+        logger.LogDebug("onCreate", "Attempting start of GraphsActivityController");
         graphsActivityController.start();
     }
 
