@@ -1,4 +1,4 @@
-package org.softshack.trackme.tests.dataprovider;
+package org.softshack.trackme.tests.dataprovider.maps;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,6 +37,4 @@ public class TestJSONConversion {
         // Assert
         assertNull(result);
     }
-
-
 }

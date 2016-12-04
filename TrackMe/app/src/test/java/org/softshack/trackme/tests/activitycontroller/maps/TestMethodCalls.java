@@ -1,4 +1,4 @@
-package org.softshack.trackme.tests.mapsactivitycontroller;
+package org.softshack.trackme.tests.activitycontroller.maps;
 
 import org.junit.Before;
 import org.junit.Test;

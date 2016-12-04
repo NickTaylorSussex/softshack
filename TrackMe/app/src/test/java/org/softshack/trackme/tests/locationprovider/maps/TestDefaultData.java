@@ -1,4 +1,4 @@
-package org.softshack.trackme.tests.locationprovider;
+package org.softshack.trackme.tests.locationprovider.maps;
 
 import org.junit.Before;
 import org.junit.Test;
