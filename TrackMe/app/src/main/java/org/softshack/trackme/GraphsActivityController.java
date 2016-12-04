@@ -19,7 +19,7 @@ public class GraphsActivityController {
 
         this.graphsActivityControllerComponents = graphsActivityControllerComponents;
 
-        // Create a listener for when the map data has changed.
+        // Create a listener for when the graph data has changed.
         this.graphsActivityControllerComponents.getDataProvider().getOnDataChanged().addHandler(new EventHandler<EventArgs>() {
             @Override
             public void handle(Object sender, EventArgs args) {
@@ -27,6 +27,13 @@ public class GraphsActivityController {
             }
         });
 
+        // Create a listener for when the task is launched to get the graph data.
+        this.graphsActivityControllerComponents.getDataProvider().getOnTaskStarted().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleTaskStarted();
+            }
+        });
     }
 
     /**
@@ -69,6 +76,8 @@ public class GraphsActivityController {
                 this.graphsActivityControllerComponents.getActivityModel().setGraphsKey(this.graphsActivityControllerComponents.getDataProvider().getGraphDataSetName());
                 this.graphsActivityControllerComponents.getActivityModel().getGraphs().put(this.graphsActivityControllerComponents.getDataProvider().getGraphDataSetName(), dataSetGraphMapper);
 
+                this.graphsActivityControllerComponents.getGraphsActivityView().dismissWait();
+
                 // Command the graph to show the new data.
                 this.graphsActivityControllerComponents.getGraphsActivityView().buildGraph();
 
@@ -79,5 +88,12 @@ public class GraphsActivityController {
         } catch (JSONException e) {
             this.graphsActivityControllerComponents.getGraphsActivityView().clearGraph();
         }
+    }
+
+    /**
+     * Handle when an async task has been started to get the data.
+     */
+    public void handleTaskStarted() {
+        this.graphsActivityControllerComponents.getGraphsActivityView().showWait();
     }
 }

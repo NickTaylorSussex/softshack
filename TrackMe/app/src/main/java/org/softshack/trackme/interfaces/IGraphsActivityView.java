@@ -8,4 +8,8 @@ public interface IGraphsActivityView {
     void clearGraph();
 
     void buildGraph();
+
+    void showWait();
+
+    void dismissWait();
 }

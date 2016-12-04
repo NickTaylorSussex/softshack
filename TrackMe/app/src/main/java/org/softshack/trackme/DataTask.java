@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.utils.obs.DefaultEvent;
+import org.softshack.utils.obs.Event;
 import org.softshack.utils.obs.EventArgs;
 
 import java.io.BufferedInputStream;
@@ -19,6 +20,8 @@ import java.net.URL;
  */
 public class DataTask extends AsyncTask<String,Integer,String> implements IDataTask {
     private final DefaultEvent<EventArgs> onTaskFinished = new DefaultEvent<EventArgs>();
+    private final DefaultEvent<EventArgs> onTaskStarted = new DefaultEvent<EventArgs>();
+
     private String result;
 
     /**
@@ -78,9 +81,17 @@ public class DataTask extends AsyncTask<String,Integer,String> implements IDataT
     }
 
     @Override
+    protected void onPreExecute() {
+        this.getOnTaskStarted().fire(this, EventArgs.Empty);
+    }
+
+    @Override
     public DefaultEvent<EventArgs> getOnTaskFinished() {
         return onTaskFinished;
     }
+
+    @Override
+    public DefaultEvent<EventArgs> getOnTaskStarted() { return onTaskStarted; }
 
     @Override
     public String getResult() {

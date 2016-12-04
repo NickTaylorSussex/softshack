@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class GraphDataProvider implements IGraphDataProvider {
 
     private final DefaultEvent<EventArgs> onDataChanged = new DefaultEvent<EventArgs>();
+    private final DefaultEvent<EventArgs> onTaskStarted = new DefaultEvent<EventArgs>();
 
     private IDataTask task;
     private ITaskFactory taskFactory;
@@ -58,6 +59,9 @@ public class GraphDataProvider implements IGraphDataProvider {
         return onDataChanged;
     }
 
+    @Override
+    public DefaultEvent<EventArgs> getOnTaskStarted() { return onTaskStarted; }
+
     /**
      * Makes an async data request and notifies of completion.
      * @param lookupUrl A remote address to use as the basis of the request.
@@ -73,11 +77,23 @@ public class GraphDataProvider implements IGraphDataProvider {
                 handleTaskFinished();
             }
         });
+
+        task.getOnTaskStarted().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleTaskStarted();
+            }
+        });
         task.execute(lookupUrl);
     }
 
     private void handleTaskFinished() {
         this.getOnDataChanged().fire(this, EventArgs.Empty);
+    }
+
+    private void handleTaskStarted() {
+
+        this.getOnTaskStarted().fire(this, EventArgs.Empty);
     }
 
     @Override

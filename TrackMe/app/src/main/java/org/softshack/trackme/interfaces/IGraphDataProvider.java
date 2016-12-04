@@ -10,6 +10,8 @@ public interface IGraphDataProvider {
 
     DefaultEvent<EventArgs> getOnDataChanged();
 
+    DefaultEvent<EventArgs> getOnTaskStarted();
+
     void requestData(String lookupUrl);
 
     String getData();

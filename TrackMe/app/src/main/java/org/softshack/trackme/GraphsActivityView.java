@@ -3,11 +3,15 @@ package org.softshack.trackme;
 import org.softshack.trackme.interfaces.IGraphsActivityView;
 import org.softshack.trackme.interfaces.ITrackGraph;
 import org.softshack.trackme.pocos.GraphsActivityViewComponents;
+import org.softshack.utils.obs.DefaultEvent;
+import org.softshack.utils.obs.EventArgs;
 
 public class GraphsActivityView implements IGraphsActivityView {
 
     private GraphsActivityModel activityModel;
     private ITrackGraph trackGraph;
+    private final DefaultEvent<EventArgs> onActivityWaitShow = new DefaultEvent<EventArgs>();
+    private final DefaultEvent<EventArgs> onActivityWaitDismiss = new DefaultEvent<EventArgs>();
 
     public GraphsActivityView(GraphsActivityViewComponents graphsActivityViewComponents) {
         this.setActivityModel(graphsActivityViewComponents.getActivityModel());
@@ -43,4 +47,17 @@ public class GraphsActivityView implements IGraphsActivityView {
     private void setActivityModel(GraphsActivityModel activityModel) {
         this.activityModel = activityModel;
     }
+
+    @Override
+    public void showWait() {
+        getOnActivityWaitShow().fire(this, EventArgs.Empty);
+    }
+
+    @Override
+    public void dismissWait() {
+        getOnActivityWaitDismiss().fire(this, EventArgs.Empty);
+    }
+
+    public DefaultEvent<EventArgs> getOnActivityWaitShow() { return onActivityWaitShow; }
+    public DefaultEvent<EventArgs> getOnActivityWaitDismiss() { return onActivityWaitDismiss; }
 }

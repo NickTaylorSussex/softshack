@@ -1,5 +1,6 @@
 package org.softshack.trackme;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +8,6 @@ import android.os.Bundle;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 
 import org.softshack.trackme.adapters.AndroidLogAdapter;
 import org.softshack.trackme.adapters.ContextAdapter;
@@ -17,11 +15,12 @@ import org.softshack.trackme.adapters.GraphsAdapter;
 import org.softshack.trackme.pocos.GraphsActivityControllerComponents;
 import org.softshack.trackme.pocos.GraphsActivityViewComponents;
 import org.softshack.utils.log.ILogger;
-
-import java.util.ArrayList;
-
+import org.softshack.utils.obs.EventArgs;
+import org.softshack.utils.obs.EventHandler;
 
 public class GraphsActivity extends AppCompatActivity {
+
+    ProgressDialog progrssDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,20 @@ public class GraphsActivity extends AppCompatActivity {
         GraphsActivityView graphsActivityView = new GraphsActivityView(graphsActivityViewComponents);
 
 
+        graphsActivityView.getOnActivityWaitShow().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleWaitShow();
+            }
+        });
+
+        graphsActivityView.getOnActivityWaitDismiss().addHandler(new EventHandler<EventArgs>() {
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                handleWaitDismiss();
+            }
+        });
+
         GraphsActivityControllerComponents graphsActivityControllerComponents =
                 new GraphsActivityControllerComponents(
                         logger,
@@ -82,6 +95,14 @@ public class GraphsActivity extends AppCompatActivity {
                         graphsActivityControllerComponents);
 
         graphsActivityController.start();
+    }
+
+    private void handleWaitShow() {
+        progrssDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
+    }
+
+    private void handleWaitDismiss() {
+        progrssDialog.dismiss();
     }
 }
 
