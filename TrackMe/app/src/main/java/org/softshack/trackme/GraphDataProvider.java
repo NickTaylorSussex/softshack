@@ -1,11 +1,11 @@
 package org.softshack.trackme;
 
-import com.google.maps.android.heatmaps.WeightedLatLng;
+import com.github.mikephil.charting.data.BarEntry;
 
 import org.json.JSONException;
 import org.softshack.trackme.interfaces.IContext;
-import org.softshack.trackme.interfaces.IDataProvider;
 import org.softshack.trackme.interfaces.IDataTask;
+import org.softshack.trackme.interfaces.IGraphDataProvider;
 import org.softshack.trackme.interfaces.ITaskFactory;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
@@ -14,9 +14,9 @@ import org.softshack.utils.obs.EventHandler;
 import java.util.ArrayList;
 
 /**
- * This class handles task management for data requests.
+ * This class handles task management for graph data requests.
  */
-public class DataProvider implements IDataProvider {
+public class GraphDataProvider implements IGraphDataProvider {
 
     private final DefaultEvent<EventArgs> onDataChanged = new DefaultEvent<EventArgs>();
 
@@ -32,7 +32,7 @@ public class DataProvider implements IDataProvider {
      * @param taskFactory A factory for creating async data tasks.
      * @param context Application context
      */
-    public DataProvider(
+    public GraphDataProvider(
             ITaskFactory taskFactory,
             IContext context,
             DataSetMapperFactory dataSetMapperFactory,
@@ -64,15 +64,15 @@ public class DataProvider implements IDataProvider {
      */
     @Override
     public void requestData(String lookupUrl){
-        task = this.taskFactory.createMapDataTask();
+        task = this.taskFactory.createGraphDataTask();
 
         task.getOnTaskFinished().addHandler(new EventHandler<EventArgs>() {
-                                                @Override
-                                                public void handle(Object sender, EventArgs args) {
-                                                    setData(task.getResult());
-                                                    handleTaskFinished();
-                                                }
-                                            });
+            @Override
+            public void handle(Object sender, EventArgs args) {
+                setData(task.getResult());
+                handleTaskFinished();
+            }
+        });
         task.execute(lookupUrl);
     }
 
@@ -91,23 +91,23 @@ public class DataProvider implements IDataProvider {
 
     /**
      * Converts a JSON object to an ArrayList.
-     * @return ArrayList of WeightedLatLong
+     * @return ArrayList of BarEntry
      * @throws JSONException
      */
     @Override
-    public DataSetMapper convertData() throws JSONException{
+    public DataSetGraphMapper convertData() throws JSONException{
         if(this.data != null && !this.data.isEmpty()) {
-            ArrayList<WeightedLatLng> array = jsonFactory.readItems(this.data);
+            ArrayList<BarEntry> array = jsonFactory.readGraphItems(this.data);
 
-            return this.dataSetMapperFactory.createDataSetMapper(
-                    array, this.getMapDataSetName());
+            return this.dataSetMapperFactory.createDataSetGraphMapper(
+                    array, this.getGraphDataSetName());
         }
 
         return null;
     }
 
     @Override
-    public String getMapDataSetName(){
-        return this.context.getString(R.string.title_activity_maps);
+    public String getGraphDataSetName(){
+        return this.context.getString(R.string.title_activity_graph);
     }
 }

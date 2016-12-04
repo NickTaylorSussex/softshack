@@ -8,4 +8,7 @@ public class TaskFactory implements ITaskFactory {
     public IDataTask createMapDataTask(){
         return new DataTask();
     }
+
+    @Override
+    public IDataTask createGraphDataTask() { return new DataTask(); }
 }

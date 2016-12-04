@@ -1,6 +1,6 @@
 package org.softshack.trackme.interfaces;
 
-import org.softshack.trackme.DataSetMapper;
+import org.softshack.trackme.DataSetMapMapper;
 import org.softshack.trackme.TrackLocation;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
@@ -19,5 +19,5 @@ public interface ITrackMap {
 
     void clearMap();
 
-    void buildHeatMap(HashMap<String, DataSetMapper> positions, String key);
+    void buildHeatMap(HashMap<String, DataSetMapMapper> positions, String key);
 }

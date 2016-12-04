@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.softshack.trackme.DataProvider;
-import org.softshack.trackme.DataSetMapper;
+import org.softshack.trackme.MapDataProvider;
+import org.softshack.trackme.DataSetMapMapper;
 import org.softshack.trackme.DataSetMapperFactory;
 import org.softshack.trackme.JSONFactory;
 import org.softshack.trackme.fakes.FakeContext;
@@ -15,11 +15,11 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestJSONConversion {
-    DataProvider dataProvider;
+    MapDataProvider mapDataProvider;
 
     @Before
     public void setup(){
-        this.dataProvider = new DataProvider(
+        this.mapDataProvider = new MapDataProvider(
                 new FakeTaskFactory(),
                 new FakeContext(),
                 new DataSetMapperFactory(),
@@ -29,10 +29,10 @@ public class TestJSONConversion {
     @Test
     public void no_error_when_data_is_null() throws Exception {
         // Arrange
-        this.dataProvider.setData(null);
+        this.mapDataProvider.setData(null);
 
         // Act
-        DataSetMapper result = this.dataProvider.convertData();
+        DataSetMapMapper result = this.mapDataProvider.convertData();
 
         // Assert
         assertNull(result);
