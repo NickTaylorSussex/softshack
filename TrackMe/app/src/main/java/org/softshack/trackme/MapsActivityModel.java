@@ -10,7 +10,9 @@ public class MapsActivityModel {
     private Boolean allowUserToCentreMap;
     private double currentLatitude;
     private double currentLongitude;
-    private String tokenizedMapUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&15";
+    private float currentZoom;
+
+    private String tokenizedMapUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&%s";
 
     private HashMap<String, DataSetMapMapper> positions = new HashMap<>();
     private String positionsKey;
@@ -67,4 +69,11 @@ public class MapsActivityModel {
         this.positionsKey = positionsKey;
     }
 
+    public void setCurrentZoom(float zoom) {
+        this.currentZoom = zoom;
+    }
+
+    public float getCurrentZoom() {
+        return this.currentZoom;
+    }
 }

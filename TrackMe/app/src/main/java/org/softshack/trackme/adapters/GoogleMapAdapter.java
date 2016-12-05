@@ -71,4 +71,9 @@ public class GoogleMapAdapter implements ITrackMap, GoogleMap.OnCameraIdleListen
 
         this.mapOverlay.clearTileCache();
     }
+
+    @Override
+    public float getCurrentZoom() {
+        return googleMap.getCameraPosition().zoom;
+    }
 }

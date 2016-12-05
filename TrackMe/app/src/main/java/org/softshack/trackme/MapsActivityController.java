@@ -71,6 +71,7 @@ public class MapsActivityController {
 
         double latitude = this.mapsActivityControllerComponents.getActivityModel().getCurrentLatitude();
         double longitude = this.mapsActivityControllerComponents.getActivityModel().getCurrentLongitude();
+        float zoom = this.mapsActivityControllerComponents.getActivityModel().getCurrentZoom();
 
         // Apparently java assertions are not recommended in Android. Therefore using conditional compilation.
         if (BuildConfig.DEBUG) {
@@ -83,7 +84,10 @@ public class MapsActivityController {
                 this.mapsActivityControllerComponents.getActivityModel().getTokenizedMapUrl(),
                 latitude,
                 longitude,
-                this.mapsActivityControllerComponents.getActivityModel().getYear());
+                this.mapsActivityControllerComponents.getActivityModel().getYear(),
+                zoom);
+
+        this.mapsActivityControllerComponents.getLogger().LogDebug("map request url", lookupUrl);
 
         // Cancel existing async data request
         this.mapsActivityControllerComponents.getDataProvider().cancelLastRequest();

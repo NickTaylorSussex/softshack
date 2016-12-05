@@ -116,6 +116,7 @@ public class MapsActivityView implements IMapsActivityView {
         TrackLocation mapCentre = trackMap.getMapCentre();
         this.getActivityModel().setCurrentLatitude(mapCentre.getLatitude());
         this.getActivityModel().setCurrentLongitude(mapCentre.getLongitude());
+        this.getActivityModel().setCurrentZoom(trackMap.getCurrentZoom());
     }
 
     /**

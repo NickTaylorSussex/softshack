@@ -20,4 +20,6 @@ public interface ITrackMap {
     void clearMap();
 
     void buildHeatMap(HashMap<String, DataSetMapMapper> positions, String key);
+
+    float getCurrentZoom();
 }
