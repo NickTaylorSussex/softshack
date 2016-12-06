@@ -36,7 +36,7 @@ $app->get('/{androidId}/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{para
     //Average values that fall within a grid cell
     $mapGrid = false;
     $mapData = false;
-    $radius = 0.005 * $paramZoom;
+    $radius = 0.0025 * $paramZoom;
     $string = json_encode($results);
     $json_a = json_decode($string, true);
 
