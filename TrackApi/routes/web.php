@@ -26,7 +26,7 @@ $app->get('/{androidId}/clean/{paramLatitude}&{paramLongitude}/{paramYear}&{para
     * cos( radians( latitude ) ) * cos( radians( longitude )
     - radians($paramLongitude) ) + sin( radians($paramLatitude) )
     * sin( radians( latitude ) ) ) ) AS distance FROM ($destinationTable)
-    HAVING distance < ($paramRadious + 3) ORDER BY distance LIMIT 0, $paramLimit + 1000");
+    HAVING distance < ($paramRadious) ORDER BY distance LIMIT 0, $paramLimit");
 
     //Get current datetime
     $ldate = date('Y-m-d H:i:s');
