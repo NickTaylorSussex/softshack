@@ -21,10 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import java.lang.String;
-import java.lang.reflect.Array;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PolyUtilTest extends TestCase {
     private static final String TEST_LINE = "_cqeFf~cjVf@p@fA}AtAoB`ArAx@hA`GbIvDiFv@gAh@t@X\\|@z@`@Z\\Xf@Vf@VpA\\tATJ@NBBkC";

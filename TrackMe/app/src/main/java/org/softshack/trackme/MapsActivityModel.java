@@ -10,9 +10,11 @@ public class MapsActivityModel {
     private Boolean allowUserToCentreMap;
     private double currentLatitude;
     private double currentLongitude;
-    private String tokenizedUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&15";
+    private float currentZoom;
 
-    private HashMap<String, DataSetMapper> positions = new HashMap<>();
+    private String tokenizedMapUrl = "http://138.68.151.94/1234/clean/%s&%s/%s&2&1000&%s";
+
+    private HashMap<String, DataSetMapMapper> positions = new HashMap<>();
     private String positionsKey;
 
     public String getYear() {
@@ -47,15 +49,15 @@ public class MapsActivityModel {
         this.currentLongitude = currentLongitude;
     }
 
-    public String getTokenizedUrl() {
-        return tokenizedUrl;
+    public String getTokenizedMapUrl() {
+        return tokenizedMapUrl;
     }
 
     /**
      * Maps name of data set to data (list of LatLngs)
      * Also activity_maps to the URL of the data set for attribution
      */
-    public HashMap<String, DataSetMapper> getPositions() {
+    public HashMap<String, DataSetMapMapper> getPositions() {
         return positions;
     }
 
@@ -65,5 +67,13 @@ public class MapsActivityModel {
 
     public void setPositionsKey(String positionsKey) {
         this.positionsKey = positionsKey;
+    }
+
+    public void setCurrentZoom(float zoom) {
+        this.currentZoom = zoom;
+    }
+
+    public float getCurrentZoom() {
+        return this.currentZoom;
     }
 }

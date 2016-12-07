@@ -1,6 +1,4 @@
-package org.softshack.trackme.tests.locationprovider;
-
-import android.location.LocationManager;
+package org.softshack.trackme.tests.locationprovider.maps;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -2,11 +2,11 @@ package org.softshack.trackme.interfaces;
 
 
 import org.json.JSONException;
-import org.softshack.trackme.DataSetMapper;
+import org.softshack.trackme.DataSetMapMapper;
 import org.softshack.utils.obs.DefaultEvent;
 import org.softshack.utils.obs.EventArgs;
 
-public interface IDataProvider {
+public interface IMapDataProvider {
     void cancelLastRequest();
 
     DefaultEvent<EventArgs> getOnDataChanged();
@@ -15,7 +15,7 @@ public interface IDataProvider {
 
     String getData();
 
-    DataSetMapper convertData() throws JSONException;
+    DataSetMapMapper convertData() throws JSONException;
 
     String getMapDataSetName();
 }

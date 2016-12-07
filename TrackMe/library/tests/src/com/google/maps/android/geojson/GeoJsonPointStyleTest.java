@@ -1,10 +1,10 @@
 package com.google.maps.android.geojson;
 
+import android.test.AndroidTestCase;
+
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-
-import android.test.AndroidTestCase;
 
 import java.util.Arrays;
 

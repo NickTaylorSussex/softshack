@@ -6,6 +6,8 @@ import org.softshack.utils.obs.EventArgs;
 public interface IDataTask {
     DefaultEvent<EventArgs> getOnTaskFinished();
 
+    DefaultEvent<EventArgs> getOnTaskStarted();
+
     String getResult();
 
     void cancel(Boolean mayInterruptIfRunning);

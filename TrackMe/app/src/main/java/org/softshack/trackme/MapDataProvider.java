@@ -4,7 +4,7 @@ import com.google.maps.android.heatmaps.WeightedLatLng;
 
 import org.json.JSONException;
 import org.softshack.trackme.interfaces.IContext;
-import org.softshack.trackme.interfaces.IDataProvider;
+import org.softshack.trackme.interfaces.IMapDataProvider;
 import org.softshack.trackme.interfaces.IDataTask;
 import org.softshack.trackme.interfaces.ITaskFactory;
 import org.softshack.utils.obs.DefaultEvent;
@@ -14,9 +14,9 @@ import org.softshack.utils.obs.EventHandler;
 import java.util.ArrayList;
 
 /**
- * This class handles task management for data requests.
+ * This class handles task management for map data requests.
  */
-public class DataProvider implements IDataProvider {
+public class MapDataProvider implements IMapDataProvider {
 
     private final DefaultEvent<EventArgs> onDataChanged = new DefaultEvent<EventArgs>();
 
@@ -32,7 +32,7 @@ public class DataProvider implements IDataProvider {
      * @param taskFactory A factory for creating async data tasks.
      * @param context Application context
      */
-    public DataProvider(
+    public MapDataProvider(
             ITaskFactory taskFactory,
             IContext context,
             DataSetMapperFactory dataSetMapperFactory,
@@ -95,11 +95,11 @@ public class DataProvider implements IDataProvider {
      * @throws JSONException
      */
     @Override
-    public DataSetMapper convertData() throws JSONException{
-        if(this.data != null) {
-            ArrayList<WeightedLatLng> array = jsonFactory.readItems(this.data);
+    public DataSetMapMapper convertData() throws JSONException{
+        if(this.data != null && !this.data.isEmpty()) {
+            ArrayList<WeightedLatLng> array = jsonFactory.readMapItems(this.data);
 
-            return this.dataSetMapperFactory.createDataSetMapper(
+            return this.dataSetMapperFactory.createDataSetMapMapper(
                     array, this.getMapDataSetName());
         }
 

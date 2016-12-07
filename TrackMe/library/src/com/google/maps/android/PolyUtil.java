@@ -18,13 +18,29 @@ package com.google.maps.android;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
-import static com.google.maps.android.SphericalUtil.*;
-import static java.lang.Math.*;
-import static com.google.maps.android.MathUtil.*;
+import static com.google.maps.android.MathUtil.EARTH_RADIUS;
+import static com.google.maps.android.MathUtil.clamp;
+import static com.google.maps.android.MathUtil.hav;
+import static com.google.maps.android.MathUtil.havDistance;
+import static com.google.maps.android.MathUtil.havFromSin;
+import static com.google.maps.android.MathUtil.inverseMercator;
+import static com.google.maps.android.MathUtil.mercator;
+import static com.google.maps.android.MathUtil.sinFromHav;
+import static com.google.maps.android.MathUtil.sinSumFromHav;
+import static com.google.maps.android.MathUtil.wrap;
+import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.tan;
+import static java.lang.Math.toRadians;
 
 public class PolyUtil {
 
